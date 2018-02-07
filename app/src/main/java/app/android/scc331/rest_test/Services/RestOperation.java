@@ -24,22 +24,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import app.android.scc331.rest_test.LoginActivity;
 import app.android.scc331.rest_test.MainActivity;
-
-/**
- * Created by Alex Stout on 06/02/2018.
- */
+import app.android.scc331.rest_test.Objects.Router;
 
 public class RestOperation {
 
     private final String TAG = "REST OP";
 
-    private final String IP = "10.32.165.30";
+    private final String IP = "192.168.1.200";
     private final String URL = "http://" + IP + ":5000";
 
+    private final String PATH_GET_ROUTER = URL + "/router/get_router";
     private final String PATH_LOGIN = URL + "/user/login";
     private final String PATH_REGISTER = URL + "/user/register";
     private final String PATH_TEST = URL + "/test";
@@ -52,9 +52,12 @@ public class RestOperation {
 
     private Context context;
 
-    public boolean login(Context context, String username, String password){
-        Log.i(TAG,"Attempting to login to the server");
+    RestOperation(Context context){
         this.context = context;
+    }
+
+    public boolean login(String username, String password){
+        Log.i(TAG,"Attempting to login to the server");
         HttpParams httpParams = new BasicHttpParams();
         int timeoutConnection = 10000;
         HttpConnectionParams.setConnectionTimeout(httpParams, timeoutConnection);
@@ -69,6 +72,56 @@ public class RestOperation {
             e.printStackTrace();
         }
         return ret;
+    }
+
+    public class RouterTask extends AsyncTask<String, Integer, ArrayList<Router>>{
+
+        @Override
+        protected ArrayList<Router> doInBackground(String... strings) {
+            HttpPost post = new HttpPost(PATH_GET_ROUTER.toString());
+
+            SharedPreferences preferences = context.getSharedPreferences("com.set.app",Context.MODE_PRIVATE);
+            String token = preferences.getString("token","");
+
+            ///post.setEntity(new StringEntity("{\"token\":\"" + token + "\"}"));
+            post.setHeader("Accept", "application/json");
+            post.setHeader("content-type", "application/json");
+            ;
+            Log.i(TAG, "Executing post...");
+
+            //HttpResponse r = httpClient.execute(post);
+
+            //int status = r.getStatusLine().getStatusCode();
+
+            //if(status == 200)//200 0k
+            {
+                //HttpEntity e = r.getEntity();
+                //String jsondatastring = EntityUtils.toString(e);
+                //Log.i(TAG,"RESP: " + jsondatastring);
+            }
+
+            return null;
+        }
+    }
+
+    public ArrayList<Router> getRouters(Context context) throws IOException{
+
+        Log.i(TAG,"Attempting to login to the server");
+        this.context = context;
+        HttpParams httpParams = new BasicHttpParams();
+        int timeoutConnection = 10000;
+        HttpConnectionParams.setConnectionTimeout(httpParams, timeoutConnection);
+        int timeoutSocket = 10000;
+        HttpConnectionParams.setSoTimeout(httpParams, timeoutSocket);
+        httpClient = new DefaultHttpClient(httpParams);
+
+        ArrayList<Router> routers = null;
+        try{
+            routers = new RouterTask().execute("").get();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return routers;
     }
 
     public class LoginTask extends AsyncTask<String, Integer, Boolean>{

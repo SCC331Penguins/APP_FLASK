@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/top_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80sp"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/main_linerar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#666">
+
+        <ImageView
+            android:id="@+id/router_image"
+            android:layout_margin="1.5sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/router"
+            android:background="#FFF"
+            android:layout_weight="2"/>
+
+        <LinearLayout
+            android:layout_margin="1.5sp"
+            android:id="@+id/router_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#FFF"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_router_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="SCC33102_R01"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_router_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:text="Smart lab router"
+                android:textSize="20dp"
+                android:layout_weight="0.7"/>
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/router_status_image"
+            android:layout_margin="1.5sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF"
+            android:layout_weight="2"
+            android:padding="20sp"
+            android:src="@drawable/on_green" />#
+
+    </LinearLayout>
+
+</LinearLayout>
