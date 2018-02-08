@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import app.android.scc331.rest_test.Fragements.RouterFragement;
+import app.android.scc331.rest_test.Fragements.SensorFragment;
 
-public class MainActivity extends AppCompatActivity implements RouterFragement.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements RouterFragement.OnFragmentInteractionListener, SensorFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

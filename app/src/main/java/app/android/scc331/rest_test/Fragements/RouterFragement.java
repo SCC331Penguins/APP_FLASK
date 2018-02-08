@@ -23,9 +23,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.Objects.Router;
+import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
 import app.android.scc331.rest_test.Services.RestOperation;
+import app.android.scc331.rest_test.Services.SetRouterRestOperation;
 
 public class RouterFragement extends Fragment {
 
@@ -53,11 +55,18 @@ public class RouterFragement extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("ARRAY SIZE", ""+routerArrayList.size());
         Router[] routerrToArray = new Router[routerArrayList.size()];
         routerrToArray = routerArrayList.toArray(routerrToArray);
         RouterListAdapter routerListAdapter = new RouterListAdapter(getActivity(),routerrToArray);
         routerList.setAdapter(routerListAdapter);
+
+        add_router.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SetRouterRestOperation setRouterRestOperation = new SetRouterRestOperation(getContext());
+                setRouterRestOperation.Start("SCC33102_R03");
+            }
+        });
 
         return v;
     }
@@ -83,7 +92,7 @@ public class RouterFragement extends Fragment {
             TextView name = row.findViewById(R.id.text_router_name);
             ImageView status = row.findViewById(R.id.router_status_image);
 
-            Router router = routers[position];
+            final Router router = routers[position];
 
             id.setText(router.getId());
             name.setText(router.getId());
@@ -96,7 +105,17 @@ public class RouterFragement extends Fragment {
                 status.setImageDrawable(d);
             }
 
-            Log.d("LIST", "Adding router: " + routers.length);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i("NEW FRAG", "HI PRESSED");
+                    SensorFragment nextFrag = SensorFragment.newInstance(router.getId());
+                    getActivity().getFragmentManager().beginTransaction()
+                            .replace(R.id.main_content_pane, nextFrag,"sensor_fragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
             return row;
         }
     }

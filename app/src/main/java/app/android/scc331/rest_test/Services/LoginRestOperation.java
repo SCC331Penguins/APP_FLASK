@@ -35,7 +35,7 @@ public class LoginRestOperation {
 
     public LoginRestOperation(Context context){
         this.context = context;
-        Log.i(TAG,"Attempting to login to the server");
+        Log.i(TAG,"Attempting to login to the server: " + RestPaths.IP);
         HttpParams httpParams = new BasicHttpParams();
         int timeoutConnection = 10000;
         HttpConnectionParams.setConnectionTimeout(httpParams, timeoutConnection);
