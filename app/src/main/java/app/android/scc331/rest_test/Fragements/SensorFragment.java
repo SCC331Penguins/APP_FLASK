@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
@@ -70,6 +71,7 @@ public class SensorFragment extends Fragment {
 
         GetSensorRestOperation getSensorRestOperation = new GetSensorRestOperation(getContext());
         sensors = (ArrayList<Sensor>) getSensorRestOperation.Start(router_id);
+        MainActivity.sensors = sensors;
 
         if(sensors !=null) {
             Sensor[] sensorToArray = new Sensor[sensors.size()];
@@ -93,7 +95,7 @@ public class SensorFragment extends Fragment {
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(R.layout.sensor_list_item, parent, false);
 
@@ -129,6 +131,17 @@ public class SensorFragment extends Fragment {
                 }
                 i++;
             }
+
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SensorDetailsFragment nextFrag = SensorDetailsFragment.newInstance(sensors[position].getId(), router_id);
+                    getActivity().getFragmentManager().beginTransaction()
+                            .replace(R.id.main_content_pane, nextFrag,"sensor_detail_fragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
             return row;
         }
     }

@@ -2,7 +2,9 @@ package app.android.scc331.rest_test.Objects;
 
 import android.util.Log;
 
-public class Sensor {
+import java.io.Serializable;
+
+public class Sensor implements Serializable {
 
     private static int LIGHT = 1;
     private static int HUMID = 2;
@@ -38,9 +40,17 @@ public class Sensor {
             }else{
                 sensorConfig[j] = true;
             }
-            Log.i("BOOL", ""+sensorConfig[j]);
             j++;
         }
         return sensorConfig;
+    }
+
+    public int getConfigInt(){
+        return config;
+    }
+
+    public void setConfig(int config){
+        this.config = this.config ^ config;
+        Log.d("XOR", ""+this.config);
     }
 }

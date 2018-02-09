@@ -300,7 +300,7 @@
                     android:layout_weight="1"
                     android:background="#FFFFFF"
                     android:textAlignment="center"
-                    android:text="IDK"
+                    android:text="IR"
                     android:textSize="12sp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.android.scc331.rest_test.Fragements.SensorFragment">
+    tools:context="app.android.scc331.rest_test.Fragements.SensorFragment"
+    android:background="#EEE">
 
     <ListView
         android:id="@+id/sensor_list_view"

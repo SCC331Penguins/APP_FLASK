@@ -1,0 +1,573 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="app.android.scc331.rest_test.Fragements.SensorDetailsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/sensor_info_frag_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:paddingTop="10dp"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:text="SSSSSSS"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#666"/>
+
+            <TextView
+                android:id="@+id/sensor_info_frag_name"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:text="Zone 1"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#666"/>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:id="@+id/sensor_1"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:text="LIGHT"
+                    android:textSize="12sp"
+                    android:background="#FFFFFF"
+                    android:textAlignment="center"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_1"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_2"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:text="HUMID"
+                    android:textSize="12sp"
+                    android:background="#FFFFFF"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_2"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_4"
+                    android:layout_width="match_parent"
+                    android:background="#FFFFFF"
+                    android:textAlignment="center"
+                    android:text="TEMP"
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_8"
+                    android:layout_width="match_parent"
+                    android:background="#FFFFFF"
+                    android:textAlignment="center"
+                    android:text="SOUND"
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_8"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#666"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_16"
+                    android:background="#FFFFFF"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:text="MOVE"
+                    android:textSize="12sp"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_16"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_32"
+                    android:background="#FFFFFF"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:text="TILT"
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_32"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_64"
+                    android:background="#FFFFFF"
+
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:text="UV"
+                    android:textSize="12sp"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_64"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/sensor_128"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
+                    android:textAlignment="center"
+                    android:text="IR"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/sensor_status_128"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"/>
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#666"
+                android:layout_weight="0"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#666"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#EEE">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="LIGHT"
+                    android:layout_margin="5dp"
+                    android:textSize="28sp"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:background="#FFF"
+                    android:layout_weight="1"/>
+                <ToggleButton
+                    android:id="@+id/toggle_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TEMP"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HUMID"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SOUND"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MOVE"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TILT"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_32"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="UV"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_64"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="#EEE">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="IR"
+                        android:layout_margin="5dp"
+                        android:textSize="28sp"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:background="#FFF"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/toggle_128"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/sensor_detail_save"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:text="SAVE"/>
+
+</LinearLayout>

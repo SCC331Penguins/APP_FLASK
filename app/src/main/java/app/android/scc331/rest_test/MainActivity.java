@@ -6,10 +6,18 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import app.android.scc331.rest_test.Fragements.RouterFragement;
-import app.android.scc331.rest_test.Fragements.SensorFragment;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RouterFragement.OnFragmentInteractionListener, SensorFragment.OnFragmentInteractionListener{
+import app.android.scc331.rest_test.Fragements.RouterFragement;
+import app.android.scc331.rest_test.Fragements.SensorDetailsFragment;
+import app.android.scc331.rest_test.Fragements.SensorFragment;
+import app.android.scc331.rest_test.Objects.Router;
+import app.android.scc331.rest_test.Objects.Sensor;
+
+public class MainActivity extends AppCompatActivity implements RouterFragement.OnFragmentInteractionListener, SensorFragment.OnFragmentInteractionListener, SensorDetailsFragment.OnFragmentInteractionListener{
+
+    public static ArrayList<Sensor> sensors;
+    public static ArrayList<Router> routers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements RouterFragement.O
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_content_pane, rf).commit();
-
     }
 
     @Override

@@ -13,5 +13,6 @@ public class RestPaths {
     public static final String PATH_REGISTER = URL + "/user/register";
     public static final String PATH_TEST = URL + "/test";
     public static final String PATH_GET_SENSOR = URL + "/sensor/get_sensors";
+    public static final String PATH_SET_SENSOR = URL + "/sensor/set_config";
 
 }
