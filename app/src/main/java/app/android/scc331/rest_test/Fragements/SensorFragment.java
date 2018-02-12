@@ -26,6 +26,7 @@ import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetSensorRestOperation;
+import app.android.scc331.rest_test.Services.SetScriptRestOperation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +90,8 @@ public class SensorFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO SCRIPT STUFFFF
+                SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getContext());
+                setScriptRestOperation.Start("script-goes-here", router_id);
             }
         });
 
