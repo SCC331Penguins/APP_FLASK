@@ -100,7 +100,8 @@ public class SetRouterRestOperation {
             HttpEntity e = r.getEntity();
             String jsondatastring = EntityUtils.toString(e);
             Log.i(TAG,""+jsondatastring);
-            return null;
+            JSONObject jsonObject = new JSONObject(jsondatastring);
+            return jsonObject.getString("result");
         }else{
             return null;
         }

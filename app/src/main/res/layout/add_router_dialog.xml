@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:layout_height="250dp"
+    android:background="#EEE"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#DDD"
+        android:layout_weight="0">
+
+        <TextView
+            android:text="Add Router"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:text="Router ID"
+        android:paddingLeft="10dp"
+        android:textAlignment="viewStart"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textSize="18sp"
+        android:layout_weight="0"/>
+
+    <EditText
+        android:id="@+id/router_id_edittext"
+        android:layout_margin="5dp"
+        android:background="#FFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+
+    <TextView
+        android:text="Router Name"
+        android:paddingLeft="10dp"
+        android:textAlignment="viewStart"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textSize="18sp"
+        android:layout_weight="0"/>
+
+    <EditText
+        android:id="@+id/router_name_eddittext"
+        android:layout_margin="5dp"
+        android:background="#FFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/save_button_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:text="SAVE"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/cancel_button_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:text="CANCEL"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

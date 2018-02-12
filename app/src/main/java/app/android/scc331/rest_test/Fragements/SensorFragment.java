@@ -1,5 +1,6 @@
 package app.android.scc331.rest_test.Fragements;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,9 +41,13 @@ public class SensorFragment extends Fragment {
     private String router_id;
     private String TAG = "SENSOR";
 
+    private TextView routername;
+
     private ListView listView;
 
     private ArrayList<Sensor> sensors;
+
+    private Button add_script;
 
     public SensorFragment() {
         // Required empty public constructor
@@ -73,6 +80,18 @@ public class SensorFragment extends Fragment {
         sensors = (ArrayList<Sensor>) getSensorRestOperation.Start(router_id);
         MainActivity.sensors = sensors;
 
+        routername = v.findViewById(R.id.router_sensor_name);
+        routername.setText(MainActivity.savedState.getRouterName(router_id));
+        add_script = v.findViewById(R.id.add_script_button);
+
+
+        add_script.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO SCRIPT STUFFFF
+            }
+        });
+
         if(sensors !=null) {
             Sensor[] sensorToArray = new Sensor[sensors.size()];
             sensorToArray = sensors.toArray(sensorToArray);
@@ -102,6 +121,8 @@ public class SensorFragment extends Fragment {
             TextView name, id;
             ImageView sensorim1, sensorim2, sensorim4, sensorim8, sensorim16, sensorim32, sensorim64, sensorim128;
 
+            String name_ss = MainActivity.savedState.getSensorName(sensors[position].getId());
+
             name = row.findViewById(R.id.text_sensor_name);
             id = row.findViewById(R.id.text_sensor_id);
 
@@ -119,7 +140,7 @@ public class SensorFragment extends Fragment {
 
             Boolean[] status = sensors[position].getConfig();
 
-            name.setText(sensors[position].getId());
+            name.setText(name_ss);
             id.setText(sensors[position].getId());
 
             int i = 0;
@@ -142,6 +163,42 @@ public class SensorFragment extends Fragment {
                             .commit();
                 }
             });
+
+            row.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                    final View vw = layoutInflater.inflate(R.layout.change_name_dialog, null);
+                    final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setCancelable(false);
+                    final EditText editname_text = (EditText) vw.findViewById(R.id.editname_edittext);
+                    final Button save = vw.findViewById(R.id.save_button_dialog);
+                    final Button cancel = vw.findViewById(R.id.cancel_button_dialog);
+
+                    save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MainActivity.savedState.saveSensor(sensors[position].getId(), editname_text.getText().toString());
+                            MainActivity.savedState.save(getContext());
+                            alertDialog.cancel();
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.cancel();
+                        }
+                    });
+
+
+                    alertDialog.setView(vw);
+                    alertDialog.show();
+
+                    return false;
+                }
+            });
+
             return row;
         }
     }

@@ -1,5 +1,7 @@
 package app.android.scc331.rest_test.Fragements;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import app.android.scc331.rest_test.MainActivity;
@@ -27,8 +31,10 @@ public class SensorDetailsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private LinearLayout ss1, ss2, ss4, ss8, ss16, ss32, ss64, ss128;
     private ToggleButton sensor_tb_1,sensor_tb_2,sensor_tb_4,sensor_tb_8,sensor_tb_16,sensor_tb_32,sensor_tb_64,sensor_tb_128;
     private ImageView sensor_im_1,sensor_im_2,sensor_im_4,sensor_im_8,sensor_im_16,sensor_im_32,sensor_im_64,sensor_im_128;
+    private TextView sensor_tx_1, sensor_tx_2, sensor_tx_4, sensor_tx_8, sensor_tx_16, sensor_tx_32, sensor_tx_64, sensor_tx_128;
     private int[] sensor_values = new int[]{1,2,4,8,16,32,64,128};
 
     private ToggleButton[] toggleButtons;
@@ -67,22 +73,50 @@ public class SensorDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_sensor_details, container, false);
 
+        TextView name = v.findViewById(R.id.sensor_info_frag_name);
+        name.setText(MainActivity.savedState.getSensorName(sensor_id));
+
         for(Sensor s : MainActivity.sensors){
             if (s.getId().equals(sensor_id))
                 sensor = s;
         }
 
-        sensor_tb_1 = v.findViewById(R.id.toggle_1);
-        sensor_tb_2 = v.findViewById(R.id.toggle_2);
-        sensor_tb_4 = v.findViewById(R.id.toggle_4);
-        sensor_tb_8 = v.findViewById(R.id.toggle_8);
-        sensor_tb_16 = v.findViewById(R.id.toggle_16);
-        sensor_tb_32 = v.findViewById(R.id.toggle_32);
-        sensor_tb_64 = v.findViewById(R.id.toggle_64);
-        sensor_tb_128 = v.findViewById(R.id.toggle_128);
+        ss1 = v.findViewById(R.id.sensor_select_1);
+        ss2 = v.findViewById(R.id.sensor_select_2);
+        ss4 = v.findViewById(R.id.sensor_select_4);
+        ss8 = v.findViewById(R.id.sensor_select_8);
+        ss16 = v.findViewById(R.id.sensor_select_16);
+        ss32 = v.findViewById(R.id.sensor_select_32);
+        ss64 = v.findViewById(R.id.sensor_select_64);
+        ss128 = v.findViewById(R.id.sensor_select_128);
+
+        sensor_tb_1 = ss1.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_2 = ss2.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_4 = ss4.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_8 = ss8.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_16 = ss16.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_32 = ss32.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_64 = ss64.findViewById(R.id.sensor_toggle_button);
+        sensor_tb_128 = ss128.findViewById(R.id.sensor_toggle_button);
+
+        sensor_tx_1 = ss1.findViewById(R.id.sensor_label);
+        sensor_tx_1.setText("LIGHT");
+        sensor_tx_2 = ss2.findViewById(R.id.sensor_label);
+        sensor_tx_2.setText("HUMIDITY");
+        sensor_tx_4 = ss4.findViewById(R.id.sensor_label);
+        sensor_tx_4.setText("TEMPERATURE");
+        sensor_tx_8 = ss8.findViewById(R.id.sensor_label);
+        sensor_tx_8.setText("SOUND");
+        sensor_tx_16 = ss16.findViewById(R.id.sensor_label);
+        sensor_tx_16.setText("MOVEMENT");
+        sensor_tx_32 = ss32.findViewById(R.id.sensor_label);
+        sensor_tx_32.setText("TILT");
+        sensor_tx_64 = ss64.findViewById(R.id.sensor_label);
+        sensor_tx_64.setText("ULTA VIOLET");
+        sensor_tx_128 = ss128.findViewById(R.id.sensor_label);
+        sensor_tx_128.setText("INFRA RED");
 
         toggleButtons = new ToggleButton[]{sensor_tb_1,sensor_tb_2,sensor_tb_4,sensor_tb_8,sensor_tb_16,sensor_tb_32,sensor_tb_64,sensor_tb_128};
-
 
         sensor_im_1 = v.findViewById(R.id.sensor_status_1);
         sensor_im_2 = v.findViewById(R.id.sensor_status_2);
@@ -100,6 +134,7 @@ public class SensorDetailsFragment extends Fragment {
         //Defined toggle buttons
         int i = 0;
         for(ToggleButton t : toggleButtons){
+            t.setChecked(sensor.getConfig()[i]);
             t.setOnCheckedChangeListener(onCheckedChangeListener(i));
             i++;
         }
@@ -108,6 +143,13 @@ public class SensorDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveSensor();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.fade_in_fragment, R.animator.fade_out_fragment);
+                SensorFragment nextFrag = SensorFragment.newInstance(router_id);
+                fragmentTransaction.replace(R.id.main_content_pane, nextFrag,"sensor_fragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         updateSensor();

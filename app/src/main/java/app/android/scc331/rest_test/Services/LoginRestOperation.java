@@ -71,10 +71,12 @@ public class LoginRestOperation {
                 if(token==null){
                     SharedPreferences preferences = context.getSharedPreferences("com.set.app", Context.MODE_PRIVATE);
                     preferences.edit().putString("token",null).apply();
+                    preferences.edit().putString("username", null).apply();
                     return false;
                 }else{
                     SharedPreferences preferences = context.getSharedPreferences("com.set.app", Context.MODE_PRIVATE);
                     preferences.edit().putString("token",token).apply();
+                    preferences.edit().putString("username", null).apply();
                     return true;
                 }
 

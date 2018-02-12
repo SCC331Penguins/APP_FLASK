@@ -3,8 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EEE"
+    android:background="@color/bb_darkBackgroundColor"
     tools:context="app.android.scc331.rest_test.Fragements.RouterFragement">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:padding="5dp"
+        android:background="#333">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="2dp"
+            android:textColor="#FFF"
+            android:textSize="30sp"
+            android:text="Routers"/>
+
+        <Button
+            android:id="@+id/add_router_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:text="+"
+            android:layout_weight="4"/>
+
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/router_list_view"
@@ -12,12 +41,5 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
     </ListView>
-
-    <Button
-        android:id="@+id/add_router_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ADD ROUTER"
-        android:layout_weight="7"/>
 
 </LinearLayout>

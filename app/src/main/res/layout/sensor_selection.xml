@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#333"
+    android:alpha="0.9"
+    android:layout_margin="5dp"
+    android:id="@+id/sensor_toggle_bar"
+    android:orientation="horizontal"
+    android:layout_height="50dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:src="@drawable/off_red"
+        android:padding="15dp"
+        android:tint="#555"/>
+
+    <TextView
+        android:id="@+id/sensor_label"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#EEE"
+        android:textSize="25sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text="MOVEMENT"
+        android:layout_weight="2"/>
+
+    <ToggleButton
+        android:id="@+id/sensor_toggle_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:alpha="0.9"
+        android:layout_marginRight="20dp"
+        android:layout_margin="3dp"
+        android:layout_weight="3"/>
+
+</LinearLayout>

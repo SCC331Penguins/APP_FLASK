@@ -51,6 +51,5 @@ public class Sensor implements Serializable {
 
     public void setConfig(int config){
         this.config = this.config ^ config;
-        Log.d("XOR", ""+this.config);
     }
 }

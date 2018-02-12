@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/room_overview_tab"
+        title="Room"
+        color="#FFFFFF"
+        barColorWhenSelected="#343131"
+        activeColor="#FFFFFF"
+        badgeBackgroundColor="#FFFFFF"
+        inActiveColor="'#eeeeee"/>
+
+    <tab
+        id="@+id/live_data_tab"
+        title="Live"
+        activeColor="#FFFFFF"
+        badgeBackgroundColor="#FFFFFF"
+        barColorWhenSelected="#242424"
+        inActiveColor="'#eeeeee"/>
+
+    <tab
+        id="@+id/welcome_tab"
+        title="Main"
+        barColorWhenSelected="#343131"
+        activeColor="#FFFFFF"
+        badgeBackgroundColor="#FFFFFF"
+        inActiveColor="'#eeeeee"/>
+
+    <tab
+        id="@+id/router_tab"
+        title="Routers"
+        barColorWhenSelected="#242424"
+        activeColor="#FFFFFF"
+        inActiveColor="'#eeeeee"/>
+
+    <tab
+        id="@+id/settings_tab"
+        title="Settings"
+        barColorWhenSelected="#343131"
+        activeColor="#FFFFFF"
+        inActiveColor="'#eeeeee"/>
+</tabs>
