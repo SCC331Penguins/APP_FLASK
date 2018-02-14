@@ -23,9 +23,13 @@ import app.android.scc331.rest_test.Fragements.MainFragment;
 import app.android.scc331.rest_test.Fragements.RouterFragement;
 import app.android.scc331.rest_test.Fragements.SensorDetailsFragment;
 import app.android.scc331.rest_test.Fragements.SensorFragment;
+import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.SavedState;
 import app.android.scc331.rest_test.Objects.Sensor;
+import app.android.scc331.rest_test.RoomMaker.MapDesignFragment;
+import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
+import app.android.scc331.rest_test.Services.GetRouterRestOperation;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
     public static ArrayList<Sensor> sensors;
     public static ArrayList<Router> routers;
+    public static ArrayList<Actuator> actuators;
 
     public static SavedState savedState;
 
@@ -51,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
         bottomBar.setOnTabSelectListener(this);
         bottomBar.setOnTabReselectListener(this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetRouterRestOperation getRouterRestOperation = new GetRouterRestOperation(getApplicationContext());
+                MainActivity.routers = (ArrayList<Router>) getRouterRestOperation.Start();
+            }
+        }).start();
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -93,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         }else if(tabId == R.id.welcome_tab){
             MainFragment f = new MainFragment();
+            fragmentTransaction.replace(R.id.main_content_pane, f).commit();
+        }else if(tabId == R.id.room_overview_tab){
+            RoomViewFragement f = new RoomViewFragement();
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         }
     }

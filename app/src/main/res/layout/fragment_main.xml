@@ -26,7 +26,8 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/moving_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bb_darkBackgroundColor"
@@ -38,6 +39,6 @@
             android:text="Todo, add overview data"
             android:textColor="#fff"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

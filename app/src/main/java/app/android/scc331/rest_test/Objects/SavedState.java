@@ -6,8 +6,13 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import app.android.scc331.rest_test.RoomMaker.Element;
+import app.android.scc331.rest_test.RoomMaker.ElementData;
+import app.android.scc331.rest_test.RoomMaker.RouterElement;
+import app.android.scc331.rest_test.RoomMaker.RouterSensorElementData;
 import app.android.scc331.rest_test.Util.InternalStorage;
 
 public class SavedState implements Serializable {
@@ -16,6 +21,34 @@ public class SavedState implements Serializable {
 
     private HashMap<String, String> router_names = new HashMap<>();
     private HashMap<String, String> sensor_names = new HashMap<>();
+
+    private HashMap<String, ArrayList<ElementData>>  routerRoomPlans = new HashMap<>();
+    private HashMap<String, RouterSensorElementData>  routerRoomPlanRouterSensor = new HashMap<>();
+    private HashMap<String, ArrayList<RouterSensorElementData>> roomPlanSensors = new HashMap<>();
+
+    public void saveElements(String router_id, ArrayList<ElementData> elements){
+        this.routerRoomPlans.put(router_id, elements);
+    }
+
+    public void saveRouterSensorElements(String router_id, RouterSensorElementData data){
+        routerRoomPlanRouterSensor.put(router_id, data);
+    }
+
+    public RouterSensorElementData getRouterSensorElements(String router_id){
+        return routerRoomPlanRouterSensor.get(router_id);
+    }
+
+    public void saveSensorElements(String router_id, ArrayList<RouterSensorElementData> data){
+        roomPlanSensors.put(router_id, data);
+    }
+
+    public ArrayList<RouterSensorElementData> getSensorElements(String router_id){
+        return roomPlanSensors.get(router_id);
+    }
+
+    public ArrayList<ElementData> getElements(String router_id) {
+        return routerRoomPlans.get(router_id);
+    }
 
     public void saveRouter(String router_id, String router_name){
         Log.d("RNAMES", ""+ router_id + " : " + router_name);

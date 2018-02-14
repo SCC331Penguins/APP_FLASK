@@ -51,6 +51,8 @@ public class RouterFragement extends Fragment {
         add_router = v.findViewById(R.id.add_router_button);
         routerList = v.findViewById(R.id.router_list_view);
 
+        MainActivity.actuators = null;
+
         displayList();
 
         add_router.setOnClickListener(new View.OnClickListener() {

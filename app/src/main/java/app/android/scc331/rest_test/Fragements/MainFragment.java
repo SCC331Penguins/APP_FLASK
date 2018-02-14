@@ -1,14 +1,24 @@
 package app.android.scc331.rest_test.Fragements;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
+import java.util.ArrayList;
+
+import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.R;
+import app.android.scc331.rest_test.RoomMaker.CustomZoomableImageView;
+import app.android.scc331.rest_test.Services.GetRouterRestOperation;
 
 public class MainFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
@@ -28,6 +38,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+
 
         return v;
     }

@@ -19,12 +19,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
+import app.android.scc331.rest_test.Services.GetActuatorRestOperation;
 import app.android.scc331.rest_test.Services.GetSensorRestOperation;
 import app.android.scc331.rest_test.Services.SetScriptRestOperation;
 
@@ -81,6 +85,9 @@ public class SensorFragment extends Fragment {
         sensors = (ArrayList<Sensor>) getSensorRestOperation.Start(router_id);
         MainActivity.sensors = sensors;
 
+        GetActuatorRestOperation getActuatorRestOperation = new GetActuatorRestOperation(getContext());
+        MainActivity.actuators = (ArrayList<Actuator>) getActuatorRestOperation.Start(router_id);
+
         routername = v.findViewById(R.id.router_sensor_name);
         routername.setText(MainActivity.savedState.getRouterName(router_id));
         add_script = v.findViewById(R.id.add_script_button);
@@ -89,9 +96,16 @@ public class SensorFragment extends Fragment {
         add_script.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO SCRIPT STUFFFF
                 SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getContext());
-                setScriptRestOperation.Start("script-goes-here", router_id);
+                String encodeURL = null;
+                try {
+                    encodeURL = URLEncoder.encode( "print('hi script')", "UTF-8" );
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                setScriptRestOperation.Start(encodeURL, router_id);
+                //TODO SCRIPT STUFFFF
             }
         });
 

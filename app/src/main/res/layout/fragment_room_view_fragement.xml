@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="app.android.scc331.rest_test.RoomMaker.RoomViewFragement">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:padding="5dp"
+        android:background="#333">
+
+        <Spinner
+            android:id="@+id/router_drop_down"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#BBB"
+            android:layout_margin="4dp"
+            android:layout_weight="1">
+
+        </Spinner>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <Button
+            android:id="@+id/edit_room_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:text="Edit"
+            android:layout_weight="2"/>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/room_show_panel"
+        android:background="@color/bb_darkBackgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,121 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.android.scc331.rest_test.RoomMaker.MapDesignFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="4.5">
+
+    <HorizontalScrollView
+        android:background="#333"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:measureAllChildren="false"
+        android:scrollbars="none"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp">
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/small_box"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/medium_box"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/large_box"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/small_rect"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/medium_rect"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/large_rect"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/small_rect_r"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/medium_rect_r"/>
+
+            <include layout="@layout/block_list_item"
+                android:id="@+id/large_rect_r"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#444"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/bb_darkBackgroundColor"
+        android:layout_weight="2">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#333"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:id="@+id/sensor_router_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:orientation="horizontal">
+
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/save_room"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:layout_margin="2dp"
+            android:text="SAVE"
+            android:textColor="#FFF"
+            android:background="#666"
+            />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/map_main_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

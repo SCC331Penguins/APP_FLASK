@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="25dp"
+    android:layout_marginLeft="5dp"
+    android:id="@+id/rs_background"
+    android:background="@drawable/rounded_box"
+    android:backgroundTint="#44F">
+
+    <TextView
+        android:id="@+id/rs_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="16sp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Router"
+        />
+
+</FrameLayout>
