@@ -1,0 +1,63 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="app.android.scc331.rest_test.Fragements.TriggerConditionManagerFragment"
+android:background="@color/bb_darkBackgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9.5"
+        android:padding="5dp"
+        android:background="#333">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/router_sensor_name"
+            android:textColor="#FFF"
+            android:textSize="30sp"
+            android:text="Trigger Condition Script"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <Button
+            android:text="Add New Trigger Conditon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/addTriggerConditionButton"
+            />
+        <Button
+            android:text="Add actuator to be triggered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/addActuator"/>
+        <Button
+            android:text="Add Preset High Level Service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/serviceButton"/>
+        <Button
+            android:text="Confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/confirmButton"/>
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tv"/>
+        <ListView
+            android:id="@+id/tc_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>
+

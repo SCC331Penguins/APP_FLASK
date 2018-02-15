@@ -1,6 +1,8 @@
 package app.android.scc331.rest_test.Fragements;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -96,16 +98,15 @@ public class SensorFragment extends Fragment {
         add_script.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getContext());
-                String encodeURL = null;
-                try {
-                    encodeURL = URLEncoder.encode( "print('hi script')", "UTF-8" );
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
 
-                setScriptRestOperation.Start(encodeURL, router_id);
-                //TODO SCRIPT STUFFFF
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                TriggerConditionsMainFragment fragment = new TriggerConditionsMainFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("router_id", router_id);
+                fragment.setArguments(bundle);
+                ft.replace(R.id.main_content_pane, fragment);
+                ft.commit();
             }
         });
 
