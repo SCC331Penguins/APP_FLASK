@@ -62,7 +62,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <service
+            android:name=".Services.LiveData.LiveDataService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

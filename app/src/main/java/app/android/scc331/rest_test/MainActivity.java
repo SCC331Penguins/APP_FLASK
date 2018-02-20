@@ -30,6 +30,7 @@ import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.RoomMaker.MapDesignFragment;
 import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.LiveDataService;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         }else if(tabId == R.id.welcome_tab){
             MainFragment f = new MainFragment();
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
+        }else if(tabId == R.id.settings_tab){
+            Intent i = new Intent(this, LiveDataService.class);
+            startService(i);
         }
     }
 
