@@ -43,6 +43,10 @@ public class LoginActivity extends AppCompatActivity {
         username = findViewById(R.id.username_box);
         password = findViewById(R.id.password_box);
 
+        //TODO REMOVE THIS
+        username.setText("Stouty");
+        password.setText("dredd");
+
         auto = findViewById(R.id.auto_login);
         remember = findViewById(R.id.remember_login);
 

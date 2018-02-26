@@ -44,7 +44,7 @@ public class SplashScreen extends AppCompatActivity {
                     }
                 }
 
-                textView.setText("Connected!");
+                //textView.setText("Connected!");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

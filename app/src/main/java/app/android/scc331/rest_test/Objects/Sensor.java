@@ -45,6 +45,11 @@ public class Sensor implements Serializable {
         return sensorConfig;
     }
 
+    @Override
+    public String toString() {
+        return "Sensor ID: " + id + ", Config: " + config;
+    }
+
     public int getConfigInt(){
         return config;
     }

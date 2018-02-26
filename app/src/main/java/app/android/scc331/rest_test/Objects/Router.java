@@ -14,6 +14,11 @@ public class Router {
         this.online = online;
     }
 
+    @Override
+    public String toString() {
+        return "Router ID: " + id + ", Online: " + online;
+    }
+
     public String getId(){
         return id;
     }

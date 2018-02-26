@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gauge="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/thl_gauges_layout"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@color/bb_darkBackgroundColor"
+    android:padding="5dp">
+
+    <Spinner
+        android:id="@+id/live_data_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BBB"
+        android:textAlignment="center"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="4">
+
+    </Spinner>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/temperature_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#333"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="0dp"
+                    android:text="TEMP"
+                    android:textAlignment="center"
+                    android:textColor="#BBB"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.github.anastr.speedviewlib.SpeedView
+                    android:id="@+id/temperature_gauge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="-34dp"
+                    android:padding="2dp"
+                    android:visibility="visible"
+                    gauge:sv_highSpeedColor="#a22"
+                    gauge:sv_indicatorColor="#fff"
+                    gauge:sv_indicatorWidth="4dp"
+                    gauge:sv_lowSpeedColor="#2a2"
+                    gauge:sv_maxSpeed="100"
+                    gauge:sv_mediumSpeedColor="#aa2"
+                    gauge:sv_minSpeed="0"
+                    gauge:sv_speedTextColor="#000"
+                    gauge:sv_speedTextSize="0dp"
+                    gauge:sv_speedometerWidth="10dp"
+                    gauge:sv_textSize="0dp"
+                    gauge:sv_unit=" Lux"
+                    gauge:sv_unitTextSize="1dp"
+                    gauge:sv_withTremble="false" />
+
+                <TextView
+                    android:id="@+id/temperature_big_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="30"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:textSize="60sp"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/temperature_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="c"
+                    android:textAlignment="center"
+                    android:gravity="bottom"
+                    android:textColor="#FFF"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/humidity_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="#333"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="0dp"
+                    android:text="HUMIDITY"
+                    android:textAlignment="center"
+                    android:textColor="#BBB"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.github.anastr.speedviewlib.SpeedView
+                    android:visibility="visible"
+                    android:id="@+id/humidity_gauge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="-30dp"
+                    gauge:sv_highSpeedColor="#a22"
+                    gauge:sv_indicatorColor="#fff"
+                    gauge:sv_indicatorWidth="4dp"
+                    gauge:sv_lowSpeedColor="#2a2"
+                    gauge:sv_maxSpeed="100"
+                    gauge:sv_mediumSpeedColor="#aa2"
+                    gauge:sv_minSpeed="0"
+                    gauge:sv_speedTextColor="#000"
+                    gauge:sv_speedTextSize="0dp"
+                    gauge:sv_speedometerWidth="10dp"
+                    gauge:sv_textSize="0dp"
+                    gauge:sv_unit=" Lux"
+                    gauge:sv_unitTextSize="1dp"
+                    gauge:sv_withTremble="false" />
+
+                <TextView
+                    android:id="@+id/humidity_big_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="30"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:textSize="60sp"
+                    android:visibility="gone"
+                    />
+
+
+                <TextView
+                    android:id="@+id/humidity_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="c"
+                    android:textAlignment="center"
+                    android:gravity="bottom"
+                    android:textColor="#FFF"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/light_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="#333"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="0dp"
+                    android:text="LIGHT"
+                    android:textAlignment="center"
+                    android:textColor="#BBB"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.github.anastr.speedviewlib.SpeedView
+                    android:visibility="visible"
+                    android:id="@+id/light_gauge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="-30dp"
+                    gauge:sv_highSpeedColor="#a22"
+                    gauge:sv_indicatorColor="#fff"
+                    gauge:sv_indicatorWidth="4dp"
+                    gauge:sv_lowSpeedColor="#2a2"
+                    gauge:sv_maxSpeed="100"
+                    gauge:sv_mediumSpeedColor="#aa2"
+                    gauge:sv_minSpeed="0"
+                    gauge:sv_speedTextColor="#000"
+                    gauge:sv_speedTextSize="0dp"
+                    gauge:sv_speedometerWidth="10dp"
+                    gauge:sv_textSize="0dp"
+                    gauge:sv_unit=" Lux"
+                    gauge:sv_unitTextSize="1dp"
+                    gauge:sv_withTremble="false" />
+
+                <TextView
+                    android:id="@+id/light_big_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="30"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:textSize="60sp"
+                    android:visibility="gone"
+                    />
+
+
+                <TextView
+                    android:id="@+id/light_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="c"
+                    android:textAlignment="center"
+                    android:gravity="bottom"
+                    android:textColor="#FFF"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

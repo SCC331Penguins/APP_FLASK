@@ -23,11 +23,6 @@ import java.util.ArrayList;
 
 import app.android.scc331.rest_test.Objects.Actuator;
 
-
-/**
- * Created by alexs on 07/02/2018.
- */
-
 public class GetActuatorRestOperation {
 
     private Context context;
