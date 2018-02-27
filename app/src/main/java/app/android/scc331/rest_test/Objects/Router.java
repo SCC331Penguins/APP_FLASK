@@ -26,4 +26,3 @@ public class Router {
     public Boolean isOnline(){
         return online;
     }
-}

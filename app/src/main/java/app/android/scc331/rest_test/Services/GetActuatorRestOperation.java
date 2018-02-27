@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package app.android.scc331.rest_test.Services;
 
 import android.content.Context;
