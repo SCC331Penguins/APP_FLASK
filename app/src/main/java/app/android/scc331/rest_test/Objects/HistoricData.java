@@ -1,7 +1,5 @@
 package app.android.scc331.rest_test.Objects;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,10 +7,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-/**
- * Created by Alex Stout on 26/02/2018.
- */
 
 public class HistoricData {
 
@@ -29,12 +23,25 @@ public class HistoricData {
             for (int i = 0; i < jsa.length(); i++) {
                 JSONObject ob = jsa.getJSONObject(i);
 
-                HistoricDataSet historicDataSet = new HistoricDataSet(ob);
+                HistoricDataSet historicDataSet = new HistoricDataSet(ob,s);
                 results.put(s, historicDataSet);
 
             }
-
         }
+    }
+
+    public HistoricDataSet getHistoricDataSet(String sensor_id){
+        return results.get(sensor_id);
+    }
+
+    public ArrayList<HistoricDataSet> getHistoricDataSet(){
+
+        ArrayList<HistoricDataSet> historicDataSets = new ArrayList<>();
+
+        for(String s : results.keySet()){
+            historicDataSets.add(results.get(s));
+        }
+        return historicDataSets;
     }
 
 }

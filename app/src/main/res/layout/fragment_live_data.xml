@@ -92,13 +92,23 @@
 
         </LinearLayout>
 
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/live_data_visual_panel"
+            android:id="@+id/live_data_visual_panel_scroll"
             android:orientation="horizontal">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/live_data_visual_panel"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

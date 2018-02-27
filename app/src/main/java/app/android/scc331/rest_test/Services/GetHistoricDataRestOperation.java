@@ -42,17 +42,17 @@ public class GetHistoricDataRestOperation {
         httpClient = new DefaultHttpClient(httpParams);
     }
 
-    public String Start(String sensor_id, String router_id){
+    public HistoricData Start(String sensor_id, String router_id){
         Object returnObject = null;
         try {
             returnObject = new PostTask(sensor_id, router_id).execute().get();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return (String) returnObject;
+        return (HistoricData) returnObject;
     }
 
-    public class PostTask extends AsyncTask<String, Integer, String>{
+    public class PostTask extends AsyncTask<String, Integer, Object>{
 
         private String sensor_id;
         private String router_id;
@@ -63,10 +63,10 @@ public class GetHistoricDataRestOperation {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String result = null;
+        protected Object doInBackground(String... strings) {
+            Object result = null;
             try{
-                result = (String) performPost(sensor_id, router_id);
+                result = performPost(sensor_id, router_id);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -103,8 +103,7 @@ public class GetHistoricDataRestOperation {
             Log.i(TAG, "" + jsondatastring);
             JSONObject jsonObject = new JSONObject(jsondatastring);
             JSONObject data = jsonObject.getJSONObject("data");
-            new HistoricData(data);
-            return null;
+            return new HistoricData(data);
         }
         return null;
     }

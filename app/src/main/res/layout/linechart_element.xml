@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:layout_marginTop="4dp"
+    android:id="@+id/line_chart_layout"
+    android:orientation="vertical"
+    android:background="@color/bb_darkBackgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="16"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="#333">
+
+        <TextView
+            android:id="@+id/graph_label"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:layout_marginBottom="-4dp"
+            android:text="TEMPERATURE"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="#AAA"
+            android:layout_weight="4"/>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#777">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_temperature"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777">
+        </com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_humidity"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777">
+        </com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_light"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777">
+        </com.github.mikephil.charting.charts.LineChart>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="16">
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radio_select">
+        <RadioButton
+            android:id="@+id/temperature_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Temperature"
+            android:gravity="center"
+            android:checked="true"
+            android:buttonTint="#FFF"
+            android:textColor="#BBB"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/humidity_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Humidity"
+            android:gravity="center"
+            android:textColor="#BBB"
+            android:buttonTint="#FFF"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/light_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Light"
+            android:textColor="#BBB"
+            android:buttonTint="#FFF"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>
