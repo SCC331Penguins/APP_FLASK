@@ -32,6 +32,8 @@ public class TriggerConditionBuilderFragment extends Fragment
     private LinearLayout layout;
     private View view;
     private HashMap<String,ArrayList> sensorsMetrics;
+    private TriggerCondition triggerCondition;
+    private boolean edit = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -39,9 +41,9 @@ public class TriggerConditionBuilderFragment extends Fragment
         Bundle bundle = this.getArguments();
         if (bundle != null)
         {
-            Toast.makeText(getActivity(), logicalOperator, Toast.LENGTH_LONG).show();
-            logicalOperator = bundle.getString("operator", "or");
+            triggerCondition = (TriggerCondition) bundle.getSerializable("tc");
         }
+
 
         view = inflater.inflate(R.layout.fragment_trigger_condition_builder, container, false);
         layout = view.findViewById(R.id.builderLayout);
@@ -128,17 +130,29 @@ public class TriggerConditionBuilderFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                TriggerCondition triggerCondition = new TriggerCondition();
+            	int index = -1;
+                if (edit)
+					index = TriggerConditionManagerFragment.conditions.indexOf(triggerCondition);
                 triggerCondition.threshold = threshold.getText().toString();
                 triggerCondition.relationalOperator = operatorsSpinner.getSelectedItem().toString();
                 triggerCondition.metric = metricsSpinner.getSelectedItem().toString();
                 triggerCondition.sensorName = sensorsSpinner.getSelectedItem().toString();
-                triggerCondition.logicalOperator = logicalOperator;
-                callback.onSubmitClicked(triggerCondition);
-
+				if(edit)
+				{
+					TriggerConditionManagerFragment.conditions.set(index, triggerCondition);
+					callback.onSubmitClicked(null);
+					return;
+				}
+				callback.onSubmitClicked(triggerCondition);
             }
         });
         layout.addView(submitButton);
+        if(triggerCondition == null)
+            triggerCondition = new TriggerCondition();
+        else
+        {
+            edit = true;
+        }
         return view;
     }
 

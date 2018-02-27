@@ -36,7 +36,6 @@ public class TriggerConditionsMainFragment extends Fragment implements OnSubmitL
         fragment.setArguments(bundle);
         ft.replace(R.id.fragmentFrameMain, fragment);
         ft.commit();
-
         // Inflate the layout for this fragment
         return view;
     }
@@ -52,7 +51,8 @@ public class TriggerConditionsMainFragment extends Fragment implements OnSubmitL
     @Override
     public void onSubmitClicked(TriggerCondition triggerCondition)
     {
-        conditions.add(triggerCondition);
+        if(triggerCondition != null)
+            conditions.add(triggerCondition);
         TriggerConditionManagerFragment triggerConditionManager = new TriggerConditionManagerFragment();
         replaceFragment(triggerConditionManager);
         triggerConditionManager.update(conditions);

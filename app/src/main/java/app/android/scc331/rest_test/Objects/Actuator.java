@@ -16,7 +16,8 @@ public class Actuator implements Serializable {
     private String id;
     private String type;
 
-    public Actuator(String id, String type){
+    public Actuator(String id, String type)
+    {
         this.id = id;
         this.type = type;
     }

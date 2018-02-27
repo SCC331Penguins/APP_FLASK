@@ -17,46 +17,58 @@ android:background="@color/bb_darkBackgroundColor">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:paddingLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:id="@+id/router_sensor_name"
-            android:textColor="#FFF"
+            android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:text="Trigger Condition Script"/>
+            android:text="Trigger Conditions"/>
+        <Button
+            android:text="+"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addItem"
+            android:layout_weight="8"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="\?"
+            android:layout_weight="8"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-        <Button
-            android:text="Add New Trigger Conditon"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:text=""
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/addTriggerConditionButton"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:id="@+id/bin"
+            android:text = "Delete"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:visibility="gone"
             />
-        <Button
-            android:text="Add actuator to be triggered"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tc_list_view"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/addActuator"/>
-        <Button
-            android:text="Add Preset High Level Service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/serviceButton"/>
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            />
         <Button
             android:text="Confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/confirmButton"/>
-        <TextView
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/tv"/>
-        <ListView
-            android:id="@+id/tc_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-        </ListView>
     </LinearLayout>
 
 </LinearLayout>
