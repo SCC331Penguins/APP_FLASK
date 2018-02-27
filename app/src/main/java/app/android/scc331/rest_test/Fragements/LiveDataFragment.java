@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class LiveDataFragment extends Fragment {
 
     private LinearLayout liveDataLayout;
 
+    private ScrollView liveDataLayoutScroll;
+
     private Handler handler = new Handler();
 
 
@@ -77,6 +80,8 @@ public class LiveDataFragment extends Fragment {
         preLiveData = v.findViewById(R.id.pre_live_data_layout);
 
         liveDataLayout = v.findViewById(R.id.live_data_visual_panel);
+
+        liveDataLayoutScroll = v.findViewById(R.id.live_data_visual_panel_scroll);
 
         requestLiveData.setVisibility(View.GONE);
         status_layout.setVisibility(View.GONE);

@@ -18,6 +18,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Graphs.LineChartElement;
+import app.android.scc331.rest_test.Objects.HistoricData;
+import app.android.scc331.rest_test.Objects.HistoricDataSet;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.RoomMaker.CustomZoomableImageView;
@@ -55,8 +58,7 @@ public class MainFragment extends Fragment {
         stopLiveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetHistoricDataRestOperation getHistoricDataRestOperation = new GetHistoricDataRestOperation(getContext());
-                getHistoricDataRestOperation.Start("43002f001247353136383631", "SCC33102_R01");
+
             }
         });
         liveData = v.findViewById(R.id.live_data_text);

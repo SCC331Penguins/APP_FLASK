@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Graphs.LineChartElement;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
@@ -128,9 +129,12 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
         this.setOrientation(VERTICAL);
 
+        View graph = new LineChartElement(context, sensors.get(0).getId(), router.getId());
+
         addView(gaugeView);
         addView(motionTilt);
         addView(soundIrUv);
+        addView(graph);
 
         this.setLayoutParams(layoutParams);
     }
