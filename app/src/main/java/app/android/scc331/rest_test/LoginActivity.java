@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package app.android.scc331.rest_test;
 
 import android.Manifest;
