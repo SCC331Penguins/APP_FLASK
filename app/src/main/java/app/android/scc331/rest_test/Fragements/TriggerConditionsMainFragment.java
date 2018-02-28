@@ -10,10 +10,6 @@ import app.android.scc331.rest_test.Fragements.TriggerConditionBuilderFragment.O
 import app.android.scc331.rest_test.Objects.TriggerCondition;
 import app.android.scc331.rest_test.R;
 
-/**
- * Created by Nikola on 14/02/2018.
- */
-
 public class TriggerConditionsMainFragment extends Fragment implements OnSubmitListener
 {
     ArrayList<TriggerCondition> conditions = new ArrayList<>();

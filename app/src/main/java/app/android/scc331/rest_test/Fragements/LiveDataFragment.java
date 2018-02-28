@@ -25,6 +25,7 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,8 +35,10 @@ import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.LiveData.Elements.GaugeElement;
+import app.android.scc331.rest_test.Services.LiveData.Elements.LiveData;
+import app.android.scc331.rest_test.Services.LiveData.Elements.SpinnerSensorListener;
 
-public class LiveDataFragment extends Fragment {
+public class LiveDataFragment extends Fragment implements SpinnerSensorListener{
 
     private LiveDataInteractionListener mListener;
 
@@ -61,6 +64,7 @@ public class LiveDataFragment extends Fragment {
 
     private Handler handler = new Handler();
 
+    private GaugeElement dataDashboard;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,17 +91,17 @@ public class LiveDataFragment extends Fragment {
         status_layout.setVisibility(View.GONE);
 
         if(MainActivity.routers != null)
-        for (Router router : MainActivity.routers) {
-            String name = MainActivity.savedState.getRouterName(router.getId());
-            if (name == null) {
-                router_names.add(router.getId());
-            } else {
-                router_names.add(name);
+            for (Router router : MainActivity.routers) {
+                String name = MainActivity.savedState.getRouterName(router.getId());
+                if (name == null) {
+                    router_names.add(router.getId());
+                } else {
+                    router_names.add(name);
+                }
             }
-        }
 
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.router_spinner_item, router_names);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.router_spinner_item, router_names);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
@@ -113,7 +117,18 @@ public class LiveDataFragment extends Fragment {
                 id.setText(r.getId());
                 name.setText(router_names.get(i));
 
-                if (r.isOnline()) {
+                MainActivity.mqttConnection.unsubscribe();
+
+                if(dataDashboard != null){
+                    liveDataLayout.removeView(dataDashboard);
+                }
+                dataDashboard = null;
+
+                status_layout.setVisibility(View.GONE);
+                preLiveData.setVisibility(View.VISIBLE);
+                liveDataLayout.setVisibility(View.GONE);
+
+                if (r.getId().equals("SCC33102_R01")) {
                     Drawable d = getResources().getDrawable(R.drawable.on_green);
                     status.setImageDrawable(d);
                     requestLiveData.setVisibility(View.VISIBLE);
@@ -123,20 +138,7 @@ public class LiveDataFragment extends Fragment {
                     requestLiveData.setVisibility(View.GONE);
                 }
 
-                //TODO Remove this
-                if(r.getId().equals("SCC33102_R01"))
-                    requestLiveData.setVisibility(View.VISIBLE);
-
-                    Log.d("ROUTER SELECT", r.toString());
-                    GaugeElement gaugeElement = new GaugeElement(getContext(), selectedRouter);
-                    liveDataLayout.addView(gaugeElement);
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateResults(gaugeElement);
-                        }
-                    });
+                Log.d("ROUTER SELECT", r.toString());
             }
 
             @Override
@@ -152,48 +154,23 @@ public class LiveDataFragment extends Fragment {
                 mListener.startLiveDataProcess(selectedRouter.getId());
             }
         });
-
         return v;
-    }
-
-    private void updateResults(GaugeElement gaugeElement){
-
-        int temperature = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-        int humid = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-        int light = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-
-        int sound = ThreadLocalRandom.current().nextInt(1400, 2400 + 1);
-        int ir = ThreadLocalRandom.current().nextInt(1400, 2400 + 1);
-        int uv = ThreadLocalRandom.current().nextInt(1400, 2400 + 1);
-
-        boolean motion = ThreadLocalRandom.current().nextBoolean();
-
-        gaugeElement.setTemperature(temperature);
-        gaugeElement.setHumidity(humid);
-        gaugeElement.setLight(light);
-
-        gaugeElement.setMotion(motion);
-
-        gaugeElement.setTilt(temperature, humid, light);
-
-        gaugeElement.setSound(sound);
-        gaugeElement.setIr(ir);
-        gaugeElement.setUv(uv);
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                updateResults(gaugeElement);
-            }
-        }, 500);
     }
 
     public static LiveDataFragment newInstance() {
         return (new LiveDataFragment());
     }
 
-    public void updateData(JSONObject data){
-        preLiveData.setVisibility(View.GONE);
+    public void updateData(HashMap<String, ArrayList<LiveData>> data){
+        if(dataDashboard == null) {
+            dataDashboard = new GaugeElement(getActivity(), selectedRouter);
+            liveDataLayout.addView(dataDashboard);
+            liveDataLayout.setVisibility(View.VISIBLE);
+            preLiveData.setVisibility(View.GONE);
+            dataDashboard.setSpinnerSensorListener(this);
+        }
+        dataDashboard.setData(data);
+
     }
 
     @Override
@@ -217,9 +194,15 @@ public class LiveDataFragment extends Fragment {
         status_text.setText(text);
     }
 
+    @Override
+    public void onNewSelected(String sensor_id) {
+        mListener.getData(sensor_id);
+    }
+
     public interface LiveDataInteractionListener {
         void setStatusText(String text);
         void startLiveDataProcess(String router_id);
+        void getData(String sensor_id);
         void updateLiveData(JSONObject data);
     }
 }

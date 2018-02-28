@@ -13,7 +13,6 @@ public class MessageParser {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             this.type = jsonObject.getString("type");
-            System.out.println(this.type);
         } catch (JSONException e) {
             e.printStackTrace();
         }

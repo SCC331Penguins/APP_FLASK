@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetActuatorRestOperation;
 import app.android.scc331.rest_test.Services.GetSensorRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
 import app.android.scc331.rest_test.Services.SetScriptRestOperation;
 
 /**
@@ -83,12 +86,19 @@ public class SensorFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_sensor, container, false);
         listView = v.findViewById(R.id.sensor_list_view);
 
-        GetSensorRestOperation getSensorRestOperation = new GetSensorRestOperation(getContext());
+        GetSensorRestOperation getSensorRestOperation = new GetSensorRestOperation(getActivity());
         sensors = (ArrayList<Sensor>) getSensorRestOperation.Start(router_id);
         MainActivity.sensors = sensors;
 
-        GetActuatorRestOperation getActuatorRestOperation = new GetActuatorRestOperation(getContext());
+        GetActuatorRestOperation getActuatorRestOperation = new GetActuatorRestOperation(getActivity());
         MainActivity.actuators = (ArrayList<Actuator>) getActuatorRestOperation.Start(router_id);
+
+        JSONArray functions = new JSONArray(MainActivity.actuators.get(0).getFunctions());
+        System.out.println(functions.toString());
+
+        OpenConnection openConnection = (MainActivity) getActivity();
+
+        openConnection.openConnection(router_id);
 
         routername = v.findViewById(R.id.router_sensor_name);
         routername.setText(MainActivity.savedState.getRouterName(router_id));

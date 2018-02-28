@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.R;
+import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
 
 public class RouterElement extends FrameLayout {
 
@@ -37,7 +39,6 @@ public class RouterElement extends FrameLayout {
         FrameLayout.LayoutParams layoutParams = (LayoutParams) this.getLayoutParams();
 
         this.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
 
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dpToPx(40)));

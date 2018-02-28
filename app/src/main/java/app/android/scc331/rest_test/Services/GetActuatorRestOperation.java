@@ -110,8 +110,9 @@ public class GetActuatorRestOperation {
 
                 String actuator_id = (String) innerArray.get(0);
                 String type = (String) innerArray.get(1);
+                String functions = (String) innerArray.get(2);
 
-                actuators.add(new Actuator(actuator_id, type));
+                actuators.add(new Actuator(actuator_id, type, functions));
             }
 
             return actuators;

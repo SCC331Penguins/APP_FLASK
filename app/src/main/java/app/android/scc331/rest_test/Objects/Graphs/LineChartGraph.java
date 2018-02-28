@@ -1,6 +1,5 @@
 package app.android.scc331.rest_test.Objects.Graphs;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -29,6 +28,8 @@ public class LineChartGraph{
     private XAxis xAxis;
     private YAxis leftAxis;
     private LineChart lineChart;
+
+    private String tag;
 
     public LineChartGraph(LineChart lineChart) {
 
@@ -116,6 +117,14 @@ public class LineChartGraph{
         LineData data = new LineData(dataSets);
         lineChart.setData(data);
         lineChart.invalidate();
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTag() {
+        return tag;
     }
 
     public void setVisible(boolean visible){

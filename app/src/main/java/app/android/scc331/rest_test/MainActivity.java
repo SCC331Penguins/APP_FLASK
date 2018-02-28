@@ -27,6 +27,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import app.android.scc331.rest_test.Fragements.LiveDataFragment;
 import app.android.scc331.rest_test.Fragements.MainFragment;
@@ -40,7 +41,10 @@ import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.Elements.LiveData;
+import app.android.scc331.rest_test.Services.LiveData.Elements.SpinnerSensorListener;
 import app.android.scc331.rest_test.Services.LiveData.MQTTConnection;
+import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
@@ -48,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         SensorFragment.OnFragmentInteractionListener,
         SensorDetailsFragment.OnFragmentInteractionListener,
         LiveDataFragment.LiveDataInteractionListener,
-        MQTTConnection.Callbacks {
+        MQTTConnection.Callbacks,
+        OpenConnection{
 
     public static ArrayList<Sensor> sensors;
     public static ArrayList<Router> routers;
@@ -64,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     public static SavedState savedState;
 
     private BottomBar bottomBar;
+
+    private SpinnerSensorListener spinnerSensorListener;
 
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -204,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         String channel_name = getNewChannelRestOperation.Start(router_id);
         setStatusText("Channel requested...");
         if (channel_name != null) {
-            mqttConnection.subscribe(channel_name, 0);
+            mqttConnection.subscribe(channel_name, router_id);
             setStatusText("Waiting for router connection...");
         } else {
             setStatusText("Error getting channel.");
@@ -212,14 +219,31 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     }
 
     @Override
-    public void promptLiveData() {
+    public void getData(String sensor_id) {
+        mqttConnection.getData(sensor_id);
+    }
+
+    @Override
+    public void promptLiveData(HashMap<String, ArrayList<LiveData>> sensor_data_hashmap) {
         channelLive = true;
         LiveDataFragment f = (LiveDataFragment) getFragmentManager().findFragmentByTag("live_data_fragment");
-        f.updateData(null);
+        f.updateData(sensor_data_hashmap);
     }
 
     @Override
     public void updateLiveData(JSONObject data) {
 
+    }
+
+    @Override
+    public void openConnection(String router_id) {
+        if(mqttConnection.isConnected(router_id)) return;
+
+        GetNewChannelRestOperation getNewChannelRestOperation = new GetNewChannelRestOperation(this);
+        String channel_name = getNewChannelRestOperation.Start(router_id);
+
+        if(channel_name != null){
+            mqttConnection.subscribe(channel_name, router_id);
+        }
     }
 }

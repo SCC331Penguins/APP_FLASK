@@ -53,15 +53,18 @@ public class RouterFragement extends Fragment {
 
         MainActivity.actuators = null;
 
+        MainActivity.mqttConnection.unsubscribe();
+
+
         displayList();
 
         add_router.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                 final View vw = layoutInflater.inflate(R.layout.add_router_dialog, null);
-                final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setCancelable(false);
                 final EditText router_id_text = (EditText) vw.findViewById(R.id.router_id_edittext);
                 final EditText router_name_text = (EditText) vw.findViewById(R.id.router_name_eddittext);
@@ -73,16 +76,16 @@ public class RouterFragement extends Fragment {
                     public void onClick(View view) {
 
                         if (router_id_text.getText().toString().equals("") || router_name_text.getText().toString().equals("")) {
-                            Toast.makeText(getContext(), "Please fill out both fields", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Please fill out both fields", Toast.LENGTH_LONG).show();
                         }else{
                             //PERFORM REST
-                            SetRouterRestOperation setRouterRestOperation = new SetRouterRestOperation(getContext());
+                            SetRouterRestOperation setRouterRestOperation = new SetRouterRestOperation(getActivity());
                             String res = (String) setRouterRestOperation.Start(router_id_text.getText().toString());
-                            Toast.makeText(getContext(), res,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), res,Toast.LENGTH_LONG).show();
                             if(res.equals("router registered")) {
                                 MainActivity.savedState.saveRouter(router_id_text.getText().toString(), router_name_text.getText().toString());
-                                MainActivity.savedState.save(getContext());
-                                MainActivity.updateRouters(getContext());
+                                MainActivity.savedState.save(getActivity());
+                                MainActivity.updateRouters(getActivity());
                             }
                             displayList();
                             alertDialog.cancel();
@@ -109,7 +112,7 @@ public class RouterFragement extends Fragment {
 
     public void displayList(){
 
-        GetRouterRestOperation getRouterRestOperation = new GetRouterRestOperation(getContext());
+        GetRouterRestOperation getRouterRestOperation = new GetRouterRestOperation(getActivity());
         ArrayList<Router> routerArrayList = null;
         try {
             routerArrayList = (ArrayList<Router>) getRouterRestOperation.Start();

@@ -2,7 +2,6 @@ package app.android.scc331.rest_test.Objects.Graphs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +12,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import app.android.scc331.rest_test.Objects.HistoricData;
 import app.android.scc331.rest_test.Objects.HistoricDataSet;
@@ -34,14 +23,18 @@ import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetHistoricDataRestOperation;
 
 @SuppressLint("ResourceType")
-public class LineChartElement extends LinearLayout implements RadioGroup.OnCheckedChangeListener {
+public class LineChartElement extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
 
-    private LineChartGraph lineChartTemp, lineChartHumid, lineChartLight;
+    private LineChartGraph lineChartTemp, lineChartHumid, lineChartLight, lineChartMove, lineChartSound, lineChartUV;
+    private LineChartGraph[] lineCharts;
 
-    private RadioButton temperatureButton, humidityButton, lightButton;
+    private RadioGroup radioGroup1, radioGroup2;
+
+    private RadioButton tempRadio, humidRadio, lightRadio, moveRadio, soundRadio, uvRadio;
 
     private TextView graphLabel;
 
+    //TODO Adapt for live data (live graphs) maybe in next release
     public LineChartElement(Context context, String sensor_id, String router_id){
         super(context);
 
@@ -50,50 +43,74 @@ public class LineChartElement extends LinearLayout implements RadioGroup.OnCheck
 
         graphLabel = v.findViewById(R.id.graph_label);
 
+        radioGroup1 = v.findViewById(R.id.radio_group_1);
+        radioGroup2 = v.findViewById(R.id.radio_group_2);
+
         lineChartTemp = new LineChartGraph(v.findViewById(R.id.line_chart_temperature));
         lineChartHumid = new LineChartGraph(v.findViewById(R.id.line_chart_humidity));
         lineChartLight = new LineChartGraph(v.findViewById(R.id.line_chart_light));
+        lineChartMove = new LineChartGraph(v.findViewById(R.id.line_chart_movement));
+        lineChartSound = new LineChartGraph(v.findViewById(R.id.line_chart_sound));
+        lineChartUV = new LineChartGraph(v.findViewById(R.id.line_chart_uv));
 
-        temperatureButton = v.findViewById(R.id.temperature_radio);
-        humidityButton = v.findViewById(R.id.humidity_radio);
-        lightButton = v.findViewById(R.id.light_radio);
 
-        lineChartTemp.setVisible(true);
-        lineChartHumid.setVisible(false);
-        lineChartLight.setVisible(false);
+        lineCharts = new LineChartGraph[]{lineChartTemp, lineChartUV, lineChartSound, lineChartMove, lineChartLight, lineChartHumid};
 
-        /*
-        temperatureButton.setOnCheckedChangeListener(this);
-        humidityButton.setOnCheckedChangeListener(this);
-        lightButton.setOnCheckedChangeListener(this);
-        */
+        tempRadio = v.findViewById(R.id.temperature_radio);
+        humidRadio = v.findViewById(R.id.humidity_radio);
+        lightRadio = v.findViewById(R.id.light_radio);
+        soundRadio = v.findViewById(R.id.sound_radio);
+        moveRadio = v.findViewById(R.id.movement_radio);
+        uvRadio = v.findViewById(R.id.uv_radio);
 
-        RadioGroup radioGroup = v.findViewById(R.id.radio_group);
-        radioGroup.setOnCheckedChangeListener(this);
+        tempRadio.setOnCheckedChangeListener(this);
+        humidRadio.setOnCheckedChangeListener(this);
+        lightRadio.setOnCheckedChangeListener(this);
+        soundRadio.setOnCheckedChangeListener(this);
+        moveRadio.setOnCheckedChangeListener(this);
+        uvRadio.setOnCheckedChangeListener(this);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         setLayoutParams(layoutParams);
 
         this.setOrientation(VERTICAL);
 
+        addView(v);
+    }
+
+    public void showChart(LineChartGraph lineChartGraph){
+
+        lineChartGraph.setVisible(true);
+
+        for(LineChartGraph lineChart : lineCharts){
+            if(lineChart != lineChartGraph)
+                lineChart.setVisible(false);
+        }
+
+    }
+
+    public void setData(String sensor_id, String router_id, Context context){
         GetHistoricDataRestOperation getHistoricDataRestOperation = new GetHistoricDataRestOperation(context);
         HistoricData historicData = getHistoricDataRestOperation.Start(sensor_id, router_id);
 
         HistoricDataSet historicDataSet = historicData.getHistoricDataSet(sensor_id);
 
-        initiateData(historicDataSet.getTemperature(), historicDataSet.getHumidity(), historicDataSet.getLight());
-
-        addView(v);
+        initiateData(historicDataSet.getTemperature(), historicDataSet.getHumidity(), historicDataSet.getLight(), historicDataSet.getMovement(),
+                historicDataSet.getSound(), historicDataSet.getUv());
     }
 
     public void initiateData(ArrayList<HistoricDataValues> temperature, ArrayList<HistoricDataValues> humidity,
-                                         ArrayList<HistoricDataValues> light){
+                             ArrayList<HistoricDataValues> light, ArrayList<HistoricDataValues> movement, ArrayList<HistoricDataValues> sound,
+                                ArrayList<HistoricDataValues> uv){
 
         ArrayList<Entry> temperatureEntries = new ArrayList<>();
         ArrayList<Entry> humidEntries = new ArrayList<>();
         ArrayList<Entry> lightEntries = new ArrayList<>();
+        ArrayList<Entry> soundEntries = new ArrayList<>();
+        ArrayList<Entry> moveEntries = new ArrayList<>();
+        ArrayList<Entry> uvEntries = new ArrayList<>();
 
         for(HistoricDataValues hdv : temperature){
             temperatureEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
@@ -107,9 +124,26 @@ public class LineChartElement extends LinearLayout implements RadioGroup.OnCheck
             lightEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
         }
 
+        for(HistoricDataValues hdv : movement){
+            moveEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
+        }
+
+        for(HistoricDataValues hdv : sound){
+            soundEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
+        }
+
+        for(HistoricDataValues hdv : uv){
+            uvEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
+        }
+
+
+
         lineChartTemp.setData(temperatureEntries, "Temperature");
         lineChartHumid.setData(humidEntries, "Humidity");
         lineChartLight.setData(lightEntries, "Light");
+        lineChartMove.setData(lightEntries, "Movement");
+        lineChartSound.setData(lightEntries, "Sound");
+        lineChartUV.setData(lightEntries, "UV");
 
     }
 
@@ -118,27 +152,29 @@ public class LineChartElement extends LinearLayout implements RadioGroup.OnCheck
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        radioGroup1.clearCheck();
+        radioGroup2.clearCheck();
 
-        switch (i){
-            case R.id.temperature_radio:
-                lineChartTemp.setVisible(true);
-                lineChartHumid.setVisible(false);
-                lineChartLight.setVisible(false);
-                graphLabel.setText("TEMPERATURE");
-                break;
-            case R.id.humidity_radio:
-                lineChartTemp.setVisible(false);
-                lineChartHumid.setVisible(true);
-                lineChartLight.setVisible(false);
-                graphLabel.setText("HUMIDITY");
-                break;
-            case R.id.light_radio:
-                lineChartTemp.setVisible(false);
-                lineChartHumid.setVisible(false);
-                lineChartLight.setVisible(true);
-                graphLabel.setText("LIGHT");
-                break;
+        int id = buttonView.getId();
+
+        if(id == tempRadio.getId()){
+            showChart(lineChartTemp);
+        }
+        else if(id == moveRadio.getId()){
+            showChart(lineChartMove);
+        }
+        else if(id == humidRadio.getId()){
+            showChart(lineChartHumid);
+        }
+        else if(id == lightRadio.getId()){
+            showChart(lineChartLight);
+        }
+        else if(id == soundRadio.getId()){
+            showChart(lineChartSound);
+        }
+        else if(id == uvRadio.getId()){
+            showChart(lineChartUV);
         }
 
     }

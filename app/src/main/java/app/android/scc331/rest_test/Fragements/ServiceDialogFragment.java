@@ -24,7 +24,7 @@ public class ServiceDialogFragment extends DialogFragment
     NoticeDialogListener mListener;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle bundle = this.getArguments();
         String[] values = null;
         String title = "Select a service";

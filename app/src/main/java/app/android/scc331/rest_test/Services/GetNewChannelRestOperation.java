@@ -15,15 +15,10 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import app.android.scc331.rest_test.Objects.Router;
-import app.android.scc331.rest_test.Objects.Sensor;
 
 public class GetNewChannelRestOperation {
 

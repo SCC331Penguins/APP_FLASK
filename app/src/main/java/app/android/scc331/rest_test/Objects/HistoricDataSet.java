@@ -1,7 +1,5 @@
 package app.android.scc331.rest_test.Objects;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

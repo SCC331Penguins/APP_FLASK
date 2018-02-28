@@ -3,6 +3,7 @@ package app.android.scc331.rest_test.Services.LiveData.Elements;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,8 @@ import android.widget.TextView;
 
 import com.github.anastr.speedviewlib.SpeedView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Graphs.LineChartElement;
@@ -34,9 +34,9 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
     public static final int HUMID = 2;
     public static final int LIGHT = 3;
 
-    private static final String TEMPERATURE_UNIT  = "c";
-    private static final String HUMIDITY_UNIT  = "%";
-    private static final String LIGHT_UNIT  = "lux";
+    private static final String TEMPERATURE_UNIT = "c";
+    private static final String HUMIDITY_UNIT = "%";
+    private static final String LIGHT_UNIT = "lux";
 
     private boolean motionBoolean;
 
@@ -62,10 +62,23 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
     private Spinner spinnerToShow;
 
+    private SpinnerSensorListener spinnerSensorListener;
+
+    private String[] names;
+    private String selected;
+
+    private Router router;
+
+    private int sel;
+
+    private LineChartElement lineChartElement;
+
     private ArrayList<Sensor> sensors;
 
     public GaugeElement(Context context, Router router) {
         super(context);
+
+        this.router = router;
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View gaugeView = layoutInflater.inflate(R.layout.speedview_element, this, false);
@@ -94,17 +107,17 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
         ArrayList<String> sensorNames = new ArrayList<>();
 
-        sensorNames.add("All");
-        for(Sensor s : sensors) {
+        for (Sensor s : sensors) {
             String name = MainActivity.savedState.getSensorName(s.getId());
-            if(name == null){
+            if (name == null) {
                 sensorNames.add(s.getId());
-            }else{
+            } else {
                 sensorNames.add(name);
             }
         }
 
-        String[] names = sensorNames.stream().toArray(String[]::new);
+        names = new String[sensorNames.size()];
+        names = sensorNames.toArray(names);
 
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.router_spinner_item, names);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -124,117 +137,248 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
         ir = soundIrUv.findViewById(R.id.ir_value);
         uv = soundIrUv.findViewById(R.id.uv_value);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         this.setOrientation(VERTICAL);
 
-        View graph = new LineChartElement(context, sensors.get(0).getId(), router.getId());
+        lineChartElement = new LineChartElement(context, sensors.get(0).getId(), router.getId());
 
         addView(gaugeView);
         addView(motionTilt);
         addView(soundIrUv);
-        addView(graph);
+        addView(lineChartElement);
 
         this.setLayoutParams(layoutParams);
     }
 
-    public void setUv(int value){
+    public void setData(HashMap<String, ArrayList<LiveData>> data) {
+
+        if(data.size() == 0){
+            Log.d("GDATA", "Sending GDATA for sensors");
+            return;
+        }
+
+        if (selected.equals("ALL")) {
+
+            HashMap<Integer, Double> averaged = new HashMap<>();
+
+            averaged.put(LiveData.TEMPERATURE, 0d);
+            averaged.put(LiveData.HUMIDITY, 0d);
+            averaged.put(LiveData.LIGHT, 0d);
+            averaged.put(LiveData.MOVEMENT, 0d);
+            averaged.put(LiveData.SOUND, 0d);
+            averaged.put(LiveData.IR, 0d);
+            averaged.put(LiveData.UV, 0d);
+            averaged.put(LiveData.TILT_X, 0d);
+            averaged.put(LiveData.TILT_Y, 0d);
+
+            int dataLen = data.size();
+
+            for (String s : data.keySet()) {
+                ArrayList<LiveData> liveData = data.get(s);
+
+                for (LiveData liveData1 : liveData) {
+
+                    switch (liveData1.getType()) {
+
+                        case LiveData.TEMPERATURE:
+                            averaged.put(LiveData.TEMPERATURE, averaged.get(LiveData.TEMPERATURE) + liveData1.getValue());
+                            break;
+
+                        case LiveData.HUMIDITY:
+                            averaged.put(LiveData.HUMIDITY, averaged.get(LiveData.HUMIDITY) + liveData1.getValue());
+                            break;
+
+                        case LiveData.LIGHT:
+                            averaged.put(LiveData.LIGHT, averaged.get(LiveData.LIGHT) + liveData1.getValue());
+                            break;
+
+                        case LiveData.MOVEMENT:
+                            averaged.put(LiveData.MOVEMENT, averaged.get(LiveData.MOVEMENT) + liveData1.getValue());
+                            break;
+
+                        case LiveData.SOUND:
+                            averaged.put(LiveData.SOUND, averaged.get(LiveData.SOUND) + liveData1.getValue());
+                            break;
+
+                        case LiveData.IR:
+                            averaged.put(LiveData.IR, averaged.get(LiveData.IR) + liveData1.getValue());
+                            break;
+
+                        case LiveData.UV:
+                            averaged.put(LiveData.UV, averaged.get(LiveData.UV) + liveData1.getValue());
+                            break;
+
+                        case LiveData.TILT_X:
+                            averaged.put(LiveData.TILT_X, averaged.get(LiveData.TILT_X) + liveData1.getValue());
+                            break;
+
+                        case LiveData.TILT_Y:
+                            averaged.put(LiveData.TILT_Y, averaged.get(LiveData.TILT_Y) + liveData1.getValue());
+                            break;
+                    }
+                }
+            }
+            setTemperature(averaged.get(LiveData.TEMPERATURE)/dataLen);
+
+            setHumidity(averaged.get(LiveData.HUMIDITY)/dataLen);
+
+            setLight(averaged.get(LiveData.LIGHT)/dataLen);
+
+            setMotion(averaged.get(LiveData.MOVEMENT)/dataLen);
+
+            setSound(averaged.get(LiveData.SOUND)/dataLen);
+
+            setUv(averaged.get(LiveData.UV)/dataLen);
+
+            setIr(averaged.get(LiveData.IR)/dataLen);
+
+            setTiltY(averaged.get(LiveData.TILT_Y)/dataLen);
+
+            setTiltX(averaged.get(LiveData.TILT_X)/dataLen);
+            return;
+        }
+
+        ArrayList<LiveData> liveDataList = data.get(selected);
+
+        for (
+                LiveData liveData : liveDataList)
+
+        {
+
+            switch (liveData.getType()) {
+
+                case LiveData.TEMPERATURE:
+                    setTemperature(liveData.getValue());
+                    break;
+
+                case LiveData.HUMIDITY:
+                    setHumidity(liveData.getValue());
+                    break;
+
+                case LiveData.LIGHT:
+                    setLight(liveData.getValue());
+                    break;
+
+                case LiveData.MOVEMENT:
+                    setMotion(liveData.getValue());
+                    break;
+
+                case LiveData.SOUND:
+                    setSound(liveData.getValue());
+                    break;
+
+                case LiveData.IR:
+                    setIr(liveData.getValue());
+                    break;
+
+                case LiveData.UV:
+                    setUv(liveData.getValue());
+                    break;
+
+                case LiveData.TILT_X:
+                    setTiltX(liveData.getValue());
+                    break;
+
+                case LiveData.TILT_Y:
+                    setTiltY(liveData.getType());
+                    break;
+            }
+
+
+        }
+
+    }
+
+    public void setUv(double value) {
         uv.setText(String.valueOf(value));
     }
 
-    public void setIr(int value){
+    public void setIr(double value) {
         ir.setText(String.valueOf(value));
     }
 
-    public void setSound(int value){
+    public void setSound(double value) {
         sound.setText(String.valueOf(value));
     }
 
-    public void setTilt(int x, int y, int z){
-        tiltX.setText("X: "+x);
-        tiltY.setText("Y: "+y);
+    public void setTiltX(double x) {
+        tiltX.setText("X: " + x);
     }
 
-    public void setMotion(boolean bool){
+    private void setTiltY(double y) {
+        tiltY.setText("Y: " + y);
+    }
 
-        if(bool){
+    public void setMotion(double bool) {
+
+        if (bool == 1) {
             motion.setTextColor(Color.parseColor("#FFFFFF"));
             motion.setBackgroundColor(Color.parseColor("#44dd44"));
-        }else{
+        } else {
             motion.setTextColor(Color.parseColor("#333333"));
             motion.setBackgroundColor(Color.parseColor("#444444"));
         }
-
-        motionBoolean = bool;
     }
 
 
-    public void setTemperature(int value){
+    public void setTemperature(double value) {
         String stringValue = String.valueOf(value);
 
-        if(temperature.getVisibility() == GONE)
-        {
+        if (temperature.getVisibility() == GONE) {
             temperatureBigValue.setText(stringValue);
             temperatureValue.setText(TEMPERATURE_UNIT);
-        }
-        else
-        {
-            temperature.setSpeedAt(value);
+        } else {
+            temperature.setSpeedAt((float) value);
             temperatureValue.setText(stringValue + TEMPERATURE_UNIT);
         }
     }
 
-    public void setHumidity(int value){
+    public void setHumidity(double value) {
         String stringValue = String.valueOf(value);
 
-        if(humidity.getVisibility() == GONE)
-        {
+        if (humidity.getVisibility() == GONE) {
             humidityBigValue.setText(stringValue);
             humidityValue.setText(HUMIDITY_UNIT);
-        }
-        else
-        {
-            humidity.setSpeedAt(value);
+        } else {
+            humidity.setSpeedAt((float) value);
             humidityValue.setText(stringValue + HUMIDITY_UNIT);
         }
 
     }
 
-    public void setLight(int value){
+    public void setLight(double value) {
         String stringValue = String.valueOf(value);
 
-        if(light.getVisibility() == GONE)
-        {
+        if (light.getVisibility() == GONE) {
             lightBigValue.setText(stringValue);
             lightValue.setText(LIGHT_UNIT);
-        }
-        else
-        {
-            light.setSpeedAt(value);
+        } else {
+            light.setSpeedAt((float) value);
             lightValue.setText(stringValue + LIGHT_UNIT);
         }
     }
 
-    private int getVisibility(View view){
-        if(view.getVisibility() == GONE) {
+    private int getVisibility(View view) {
+        if (view.getVisibility() == GONE) {
             return VISIBLE;
         }
         return GONE;
     }
 
-    private void toggleTemperature(){
+    private void toggleTemperature() {
         temperature.setVisibility(getVisibility(temperature));
         temperatureBigValue.setVisibility(getVisibility(temperatureBigValue));
     }
 
-    private void toggleHumidity(){
+    private void toggleHumidity() {
         humidity.setVisibility(getVisibility(humidity));
         humidityBigValue.setVisibility(getVisibility(humidityBigValue));
 
     }
 
-    private void toggleLight(){
+    private void toggleLight() {
         light.setVisibility(getVisibility(light));
         lightBigValue.setVisibility(getVisibility(lightBigValue));
     }
@@ -242,8 +386,7 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         Log.d("CLUCK", "Clicked");
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.temperature_layout:
                 toggleTemperature();
                 break;
@@ -258,9 +401,16 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
         }
     }
 
+    public void setSpinnerSensorListener(SpinnerSensorListener spinnerSensorListener){
+        this.spinnerSensorListener = spinnerSensorListener;
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+            selected = sensors.get(i).getId();
+            lineChartElement.setData(selected,router.getId(), getContext());
+        //spinnerSensorListener.onNewSelected(selected);
+        Log.d("SELECTED", selected);
     }
 
     @Override
