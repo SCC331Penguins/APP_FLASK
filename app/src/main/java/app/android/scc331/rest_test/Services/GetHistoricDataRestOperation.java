@@ -42,10 +42,10 @@ public class GetHistoricDataRestOperation {
         httpClient = new DefaultHttpClient(httpParams);
     }
 
-    public HistoricData Start(String sensor_id, String router_id){
+    public HistoricData Start(String sensor_id, String router_id, long start, long end){
         Object returnObject = null;
         try {
-            returnObject = new PostTask(sensor_id, router_id).execute().get();
+            returnObject = new PostTask(sensor_id, router_id, start, end).execute().get();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -56,17 +56,21 @@ public class GetHistoricDataRestOperation {
 
         private String sensor_id;
         private String router_id;
+        private long start;
+        private long end;
 
-        PostTask(String sensor_id, String router_id){
+        PostTask(String sensor_id, String router_id, long start, long end){
             this.sensor_id = sensor_id;
             this.router_id = router_id;
+            this.start = start;
+            this.end = end;
         }
 
         @Override
         protected Object doInBackground(String... strings) {
             Object result = null;
             try{
-                result = performPost(sensor_id, router_id);
+                result = performPost(sensor_id, router_id, start, end);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -74,7 +78,7 @@ public class GetHistoricDataRestOperation {
         }
     }
 
-    public Object performPost(String sensor_id, String router_id) throws IOException, JSONException {
+    public Object performPost(String sensor_id, String router_id, long start, long end) throws IOException, JSONException {
 
         HttpPost post = new HttpPost(RestPaths.PATH_GET_HISTORIC);
 
@@ -82,7 +86,10 @@ public class GetHistoricDataRestOperation {
         String token = sharedPreferences.getString("token", "");
 
         StringBuilder s = new StringBuilder();
-        s.append("{\"token\":\"" + token + "\", \"router_id\":\"" + router_id + "\", \"sensor_id\":\""+ sensor_id +"\"}");
+        s.append("{\"token\":\"" + token + "\", \"router_id\":\"" + router_id + "\", \"sensor_id\":\""+ sensor_id +"\"" +
+                ", \"start\":"+start+",\"end\":"+end+"}");
+
+
         Log.i(TAG, s.toString());
 
         post.setEntity(new StringEntity(s.toString()));

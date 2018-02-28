@@ -251,22 +251,27 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
                 case LiveData.TEMPERATURE:
                     setTemperature(liveData.getValue());
+                    lineChartElement.addChartTemp((float) liveData.getValue());
                     break;
 
                 case LiveData.HUMIDITY:
                     setHumidity(liveData.getValue());
+                    lineChartElement.addChartHumid((float) liveData.getValue());
                     break;
 
                 case LiveData.LIGHT:
                     setLight(liveData.getValue());
+                    lineChartElement.addChartLight((float) liveData.getValue());
                     break;
 
                 case LiveData.MOVEMENT:
                     setMotion(liveData.getValue());
+                    lineChartElement.addChartMove((float) liveData.getValue());
                     break;
 
                 case LiveData.SOUND:
                     setSound(liveData.getValue());
+                    lineChartElement.addChartSound((float) liveData.getValue());
                     break;
 
                 case LiveData.IR:
@@ -275,6 +280,7 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
                 case LiveData.UV:
                     setUv(liveData.getValue());
+                    lineChartElement.addChartUV((float) liveData.getValue());
                     break;
 
                 case LiveData.TILT_X:
@@ -289,6 +295,10 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
 
         }
 
+    }
+
+    public void setNewDate(String text, long utc, int type){
+        lineChartElement.setNewDate(text,utc,type);
     }
 
     public void setUv(double value) {
@@ -408,7 +418,7 @@ public class GaugeElement extends LinearLayout implements View.OnClickListener, 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             selected = sensors.get(i).getId();
-            lineChartElement.setData(selected,router.getId(), getContext());
+            lineChartElement.setData(selected,router.getId(), 0, 0, getContext());
         //spinnerSensorListener.onNewSelected(selected);
         Log.d("SELECTED", selected);
     }

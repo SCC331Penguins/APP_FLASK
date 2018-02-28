@@ -59,6 +59,13 @@
             android:text="data:"
             android:textColor="#FFF"/>
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/live_data_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+        </com.github.mikephil.charting.charts.LineChart>
+
 
     </LinearLayout>
 

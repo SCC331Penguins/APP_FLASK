@@ -3,7 +3,7 @@
     xmlns:f="http://schemas.android.com/apk/res-auto"
     android:id="@+id/line_chart_layout"
     android:layout_width="match_parent"
-    android:layout_height="310dp"
+    android:layout_height="400dp"
     android:layout_marginTop="4dp"
     android:background="@color/bb_darkBackgroundColor"
     android:orientation="vertical">
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_weight="22"
+        android:layout_weight="31"
         android:background="#333">
 
         <TextView
@@ -28,6 +28,19 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
+        <Switch
+            android:id="@+id/live_switch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:text="LIVE "
+            android:checked="false"
+            android:paddingRight="5dp"
+            android:textStyle="bold"
+            android:textColor="#AAA"
+            android:textSize="22sp"
+            android:textAlignment="viewEnd"/>
+
 
     </LinearLayout>
 
@@ -36,8 +49,57 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_weight="7"
+        android:layout_weight="14"
         android:background="#777">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_temperature_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_humidity_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="visible"></com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_light_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_movement_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_sound_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_uv_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#777"
+            android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
+
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart_temperature"
@@ -87,12 +149,13 @@
             android:background="#777"
             android:visibility="gone"></com.github.mikephil.charting.charts.LineChart>
 
+
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="20"
+        android:layout_weight="28"
         android:orientation="vertical">
 
         <RadioGroup
@@ -180,6 +243,76 @@
                 android:textStyle="bold" />
 
         </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="27">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-4dp"
+                android:layout_weight="4"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:text="FROM"
+                android:textColor="#AAA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-4dp"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="TO"
+                android:textColor="#AAA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/from_date_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="2018-02-10"
+                android:textSize="20sp"
+                android:backgroundTint="#AAA"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/to_date_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:backgroundTint="#AAA"
+
+                android:text="2018-02-10"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

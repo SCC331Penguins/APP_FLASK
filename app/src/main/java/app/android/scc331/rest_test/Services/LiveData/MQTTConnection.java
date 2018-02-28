@@ -84,10 +84,10 @@ public class MQTTConnection extends Service implements MqttCallback {
             HashMap<String, ArrayList<LiveData>> sensor_data_hashmap = new HashMap<>();
             System.out.println("Created Hashmap");
 
+
             ArrayList<LiveData> liveDataList = new ArrayList<>();
             System.out.println("Created Arraylist");
 
-            /*
             liveDataList.add(new LiveData((Double) jsonObject.get("temp"), jsonObject.getString("SENSORID"), LiveData.TEMPERATURE));
             liveDataList.add(new LiveData((Double) jsonObject.get("humidity"),  jsonObject.getString("SENSORID"), LiveData.HUMIDITY));
             liveDataList.add(new LiveData((Double) jsonObject.get("light"),  jsonObject.getString("SENSORID"), LiveData.LIGHT));
@@ -106,15 +106,16 @@ public class MQTTConnection extends Service implements MqttCallback {
             for(LiveData liveData : liveDataList) {
                 System.out.println("LiveDataClass: " + liveData.getValue());
             }
-            */
+
 
             Log.d("JSON", jsonObject.toString());
+
             activity.promptLiveData(sensor_data_hashmap);
             System.out.println("Prompted activity");
         } else if (m.getType().equals("YOPHO")) {
             Log.d("YOPHO", "GOT YOPHO");
-            activity.promptLiveData(null);
             getData("430032000f47353136383631");
+            activity.promptLiveData(null);
         }
     }
 

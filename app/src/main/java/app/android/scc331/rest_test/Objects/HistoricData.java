@@ -16,13 +16,12 @@ public class HistoricData {
 
         for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
             String s = it.next();
-            System.out.println("Key: " + s);
+            System.out.println("Key parse: " + s);
             JSONObject jso = jsonObject.getJSONObject(s);
             JSONArray jsa = jso.getJSONArray("data");
 
             for (int i = 0; i < jsa.length(); i++) {
                 JSONObject ob = jsa.getJSONObject(i);
-
                 HistoricDataSet historicDataSet = new HistoricDataSet(ob,s);
                 results.put(s, historicDataSet);
 

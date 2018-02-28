@@ -1,26 +1,33 @@
 package app.android.scc331.rest_test.Objects.Graphs;
 
 import android.annotation.SuppressLint;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
 
+import app.android.scc331.rest_test.Fragements.DatePicker;
+import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.HistoricData;
 import app.android.scc331.rest_test.Objects.HistoricDataSet;
 import app.android.scc331.rest_test.Objects.HistoricDataValues;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetHistoricDataRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.Elements.LiveDataGraph;
 
 @SuppressLint("ResourceType")
 public class LineChartElement extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
@@ -28,11 +35,23 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
     private LineChartGraph lineChartTemp, lineChartHumid, lineChartLight, lineChartMove, lineChartSound, lineChartUV;
     private LineChartGraph[] lineCharts;
 
+    private LiveDataGraph liveDataTemp, liveDataHumid, liveDataLight, liveDataMove, liveDataSound, liveDataUV;
+    private LiveDataGraph[] liveDataGraphs;
+
     private RadioGroup radioGroup1, radioGroup2;
 
     private RadioButton tempRadio, humidRadio, lightRadio, moveRadio, soundRadio, uvRadio;
 
     private TextView graphLabel;
+
+    private Switch liveSwitch;
+
+    private String sensor_id, router_id;
+
+    private Button fromDateButton, toDateButton;
+
+    private int checkedButtonId;
+    private int liveSwitchId;
 
     //TODO Adapt for live data (live graphs) maybe in next release
     public LineChartElement(Context context, String sensor_id, String router_id){
@@ -42,6 +61,10 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         View v = layoutInflater.inflate(R.layout.linechart_element, this, false);
 
         graphLabel = v.findViewById(R.id.graph_label);
+
+        liveSwitch = v.findViewById(R.id.live_switch);
+        liveSwitch.setOnCheckedChangeListener(this);
+        liveSwitchId = liveSwitch.getId();
 
         radioGroup1 = v.findViewById(R.id.radio_group_1);
         radioGroup2 = v.findViewById(R.id.radio_group_2);
@@ -53,7 +76,14 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         lineChartSound = new LineChartGraph(v.findViewById(R.id.line_chart_sound));
         lineChartUV = new LineChartGraph(v.findViewById(R.id.line_chart_uv));
 
+        liveDataTemp = new LiveDataGraph(context, v.findViewById(R.id.line_chart_temperature_live));
+        liveDataHumid = new LiveDataGraph(context, v.findViewById(R.id.line_chart_humidity_live));
+        liveDataLight = new LiveDataGraph(context, v.findViewById(R.id.line_chart_light_live));
+        liveDataMove = new LiveDataGraph(context, v.findViewById(R.id.line_chart_movement_live));
+        liveDataSound = new LiveDataGraph(context, v.findViewById(R.id.line_chart_sound_live));
+        liveDataUV = new LiveDataGraph(context, v.findViewById(R.id.line_chart_uv_live));
 
+        liveDataGraphs = new LiveDataGraph[]{liveDataTemp, liveDataHumid, liveDataUV, liveDataMove, liveDataSound, liveDataLight};
         lineCharts = new LineChartGraph[]{lineChartTemp, lineChartUV, lineChartSound, lineChartMove, lineChartLight, lineChartHumid};
 
         tempRadio = v.findViewById(R.id.temperature_radio);
@@ -70,6 +100,32 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         moveRadio.setOnCheckedChangeListener(this);
         uvRadio.setOnCheckedChangeListener(this);
 
+        fromDateButton = v.findViewById(R.id.from_date_button);
+        toDateButton = v.findViewById(R.id.to_date_button);
+
+        fromDateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = DatePicker.newInstance(0);
+                newFragment.show(((MainActivity)context).getFragmentManager(), "datePicker");
+            }
+        });
+
+        toDateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = DatePicker.newInstance(1);
+                newFragment.show(((MainActivity)context).getFragmentManager(), "datePicker");
+            }
+        });
+
+        graphLabel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                liveDataTemp.addEntry(19);
+            }
+        });
+
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -78,6 +134,25 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         this.setOrientation(VERTICAL);
 
         addView(v);
+    }
+
+
+    public void setNewDate(String text, long utc, int type){
+        if(type == 0){
+            fromDateButton.setText(text);
+        }else {
+            toDateButton.setText(text);
+        }
+
+        if(MainActivity.endDate < MainActivity.startDate){
+            Toast.makeText(getContext(), "End date must be after start date.",Toast.LENGTH_LONG).show();
+        }else{
+            if(MainActivity.endDate == MainActivity.startDate){
+                setData(sensor_id, router_id, MainActivity.startDate, MainActivity.endDate+86400, getContext());
+            }else {
+                setData(sensor_id, router_id, MainActivity.startDate, MainActivity.endDate, getContext());
+            }
+        }
     }
 
     public void showChart(LineChartGraph lineChartGraph){
@@ -89,11 +164,30 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
                 lineChart.setVisible(false);
         }
 
+        for(LiveDataGraph lineChart : liveDataGraphs){
+                lineChart.setVisible(false);
+        }
     }
 
-    public void setData(String sensor_id, String router_id, Context context){
+    public void showChart(LiveDataGraph lineChartGraph){
+
+        lineChartGraph.setVisible(true);
+
+        for(LiveDataGraph lineChart : liveDataGraphs){
+            if(lineChart != lineChartGraph)
+                lineChart.setVisible(false);
+        }
+
+        for(LineChartGraph lineChart : lineCharts){
+            lineChart.setVisible(false);
+        }
+    }
+
+    public void setData(String sensor_id, String router_id, long start, long end, Context context){
+        this.sensor_id=sensor_id;
+        this.router_id=router_id;
         GetHistoricDataRestOperation getHistoricDataRestOperation = new GetHistoricDataRestOperation(context);
-        HistoricData historicData = getHistoricDataRestOperation.Start(sensor_id, router_id);
+        HistoricData historicData = getHistoricDataRestOperation.Start(sensor_id, router_id, start, end);
 
         HistoricDataSet historicDataSet = historicData.getHistoricDataSet(sensor_id);
 
@@ -136,8 +230,6 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
             uvEntries.add(new Entry(hdv.getTime(), (float) hdv.getValue()));
         }
 
-
-
         lineChartTemp.setData(temperatureEntries, "Temperature");
         lineChartHumid.setData(humidEntries, "Humidity");
         lineChartLight.setData(lightEntries, "Light");
@@ -146,6 +238,37 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         lineChartUV.setData(lightEntries, "UV");
 
     }
+
+
+    public void addChartTemp(float val){
+        liveDataTemp.addEntry(val);
+    }
+
+
+    public void addChartHumid(float val){
+        liveDataHumid.addEntry(val);
+    }
+
+
+    public void addChartLight(float val){
+        liveDataLight.addEntry(val);
+    }
+
+
+    public void addChartMove(float val){
+        liveDataMove.addEntry(val);
+    }
+
+
+    public void addChartSound(float val){
+        liveDataSound.addEntry(val);
+    }
+
+
+    public void addChartUV(float val){
+        liveDataUV.addEntry(val);
+    }
+
 
     private void setData(){
 
@@ -157,26 +280,58 @@ public class LineChartElement extends LinearLayout implements CompoundButton.OnC
         radioGroup2.clearCheck();
 
         int id = buttonView.getId();
+        if(id != liveSwitchId)
+            checkedButtonId = id;
 
         if(id == tempRadio.getId()){
-            showChart(lineChartTemp);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataTemp);
+            }else {
+                showChart(lineChartTemp);
+            }
+            graphLabel.setText("TEMPERATURE");
         }
         else if(id == moveRadio.getId()){
-            showChart(lineChartMove);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataMove);
+            }else {
+                showChart(lineChartMove);
+            }
+            graphLabel.setText("MOVEMENT");
         }
         else if(id == humidRadio.getId()){
-            showChart(lineChartHumid);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataHumid);
+            }else {
+                showChart(lineChartHumid);
+            }
+            graphLabel.setText("HUMIDITY");
+
         }
         else if(id == lightRadio.getId()){
-            showChart(lineChartLight);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataLight);
+            }else {
+                showChart(lineChartLight);
+            }
+            graphLabel.setText("LIGHT");
         }
         else if(id == soundRadio.getId()){
-            showChart(lineChartSound);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataSound);
+            }else {
+                showChart(lineChartSound);
+            }
+            graphLabel.setText("SOUND");
         }
         else if(id == uvRadio.getId()){
-            showChart(lineChartUV);
+            if(liveSwitch.isChecked()){
+                showChart(liveDataUV);
+            }else {
+                showChart(lineChartUV);
+            }
+            graphLabel.setText("UV");
         }
-
     }
 }
 

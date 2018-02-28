@@ -157,6 +157,12 @@ public class LiveDataFragment extends Fragment implements SpinnerSensorListener{
         return v;
     }
 
+    public void setNewDate(String text, long utc, int type){
+        if (dataDashboard != null){
+            dataDashboard.setNewDate(text,utc,type);
+        }
+    }
+
     public static LiveDataFragment newInstance() {
         return (new LiveDataFragment());
     }

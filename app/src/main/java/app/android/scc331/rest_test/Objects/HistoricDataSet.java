@@ -34,9 +34,11 @@ public class HistoricDataSet {
 
         for (Iterator<String> it1 = jsonObject.keys(); it1.hasNext(); ) {
             String s1 = it1.next();
+            System.out.println("Got to get historic data set loop");
             JSONArray jsonArray = null;
             try {
                 jsonArray = jsonObject.getJSONArray(s1);
+                System.out.println("Got to get historic data values loop try catch");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -101,7 +103,6 @@ public class HistoricDataSet {
     }
 
     private ArrayList<HistoricDataValues> getHistoricDataValues(JSONArray jsonArray) {
-
         ArrayList<HistoricDataValues> historicDataValues = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONArray jsonArray1 = null;

@@ -89,7 +89,14 @@ public class LineChartGraph{
 
     public void setData(ArrayList<Entry> entries, String type) {
         lineChart.resetTracking();
+
+        System.out.println("Setting data in the graph");
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+
+        if(entries.size() == 0){
+            entries.add(new Entry(0,0));
+        }
 
         LineDataSet t = new LineDataSet(entries, type);
         t.setLineWidth(2.5f);
@@ -115,6 +122,9 @@ public class LineChartGraph{
 
         dataSets.add(t);
         LineData data = new LineData(dataSets);
+
+        System.out.println(dataSets.size());
+
         lineChart.setData(data);
         lineChart.invalidate();
     }

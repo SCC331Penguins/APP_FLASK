@@ -27,8 +27,10 @@ import com.roughike.bottombar.OnTabSelectListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
+import app.android.scc331.rest_test.Fragements.DatePicker;
 import app.android.scc331.rest_test.Fragements.LiveDataFragment;
 import app.android.scc331.rest_test.Fragements.MainFragment;
 import app.android.scc331.rest_test.Fragements.RouterFragement;
@@ -45,6 +47,7 @@ import app.android.scc331.rest_test.Services.LiveData.Elements.LiveData;
 import app.android.scc331.rest_test.Services.LiveData.Elements.SpinnerSensorListener;
 import app.android.scc331.rest_test.Services.LiveData.MQTTConnection;
 import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
+import app.android.scc331.rest_test.Services.PingRestServer;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
@@ -53,12 +56,14 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         SensorDetailsFragment.OnFragmentInteractionListener,
         LiveDataFragment.LiveDataInteractionListener,
         MQTTConnection.Callbacks,
-        OpenConnection{
+        OpenConnection, DatePicker.DateInteractionListener{
 
     public static ArrayList<Sensor> sensors;
     public static ArrayList<Router> routers;
     public static ArrayList<Actuator> actuators;
     public static MQTTConnection mqttConnection;
+
+    public static long startDate, endDate;
 
     private boolean mBounded;
 
@@ -196,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         }
     }
 
-
     @Override
     public void setStatusText(String text) {
         LiveDataFragment f = (LiveDataFragment) getFragmentManager().findFragmentByTag("live_data_fragment");
@@ -244,6 +248,27 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
         if(channel_name != null){
             mqttConnection.subscribe(channel_name, router_id);
+        }
+    }
+
+    @Override
+    public void onDateChange(long utc, int type) {
+        System.out.println("On Date Change Main Act");
+        if(type == 0){
+            startDate = utc;
+        }else{
+            endDate = utc;
+        }
+    }
+
+    @Override
+    public void onDateChange(String text, int type) {
+        System.out.println("On Date Change Main Act");
+        LiveDataFragment f = (LiveDataFragment) getFragmentManager().findFragmentByTag("live_data_fragment");
+        if(type==0){
+            f.setNewDate(text,startDate, 0);
+        }else{
+            f.setNewDate(text,endDate, 1);
         }
     }
 }

@@ -1,5 +1,6 @@
 package app.android.scc331.rest_test.Fragements;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.MainActivity;
@@ -27,6 +30,7 @@ import app.android.scc331.rest_test.RoomMaker.CustomZoomableImageView;
 import app.android.scc331.rest_test.Services.GetHistoricDataRestOperation;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.Elements.LiveDataGraph;
 
 public class MainFragment extends Fragment {
 
@@ -35,6 +39,8 @@ public class MainFragment extends Fragment {
     private TextView liveData;
 
     private String channel;
+
+    private LiveDataGraph liveDataGraph;
 
     public MainFragment() {}
 
@@ -47,8 +53,8 @@ public class MainFragment extends Fragment {
         startLiveData.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                GetNewChannelRestOperation channelRestOperation = new GetNewChannelRestOperation(getContext());
-                channel = channelRestOperation.Start("SCC33102_R01");
+                DialogFragment newFragment = DatePicker.newInstance(1);
+                newFragment.show(getFragmentManager(), "datePicker");
                 return true;
             }
         });
@@ -58,7 +64,8 @@ public class MainFragment extends Fragment {
         stopLiveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DialogFragment newFragment = DatePicker.newInstance(0);
+                newFragment.show(getFragmentManager(), "datePicker");
             }
         });
         liveData = v.findViewById(R.id.live_data_text);
