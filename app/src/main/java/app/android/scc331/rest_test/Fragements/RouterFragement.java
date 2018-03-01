@@ -4,14 +4,12 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,7 +168,7 @@ public class RouterFragement extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.animator.fade_in_fragment, R.animator.fade_out_fragment);
-                    SensorFragment nextFrag = SensorFragment.newInstance(router.getId());
+                    RouterDevicesFragment nextFrag = RouterDevicesFragment.newInstance(router.getId());
                     fragmentTransaction.replace(R.id.main_content_pane, nextFrag,"sensor_fragment")
                             .addToBackStack(null)
                             .commit();

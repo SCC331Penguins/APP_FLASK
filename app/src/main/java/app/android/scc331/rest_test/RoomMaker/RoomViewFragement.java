@@ -15,13 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import app.android.scc331.rest_test.Fragements.SensorFragment;
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.R;

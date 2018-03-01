@@ -57,6 +57,8 @@ dependencies {
     compile('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
         exclude module: 'support-v4'
     }
+    compile 'com.android.support:support-v13:26.1.0'
     compile 'com.github.MFlisar:DragSelectRecyclerView:0.3'
+    compile 'github.hellocsl:CursorWheelLayout:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

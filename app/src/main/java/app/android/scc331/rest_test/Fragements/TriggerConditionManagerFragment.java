@@ -27,8 +27,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.TriggerCondition;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.SetScriptRestOperation;
@@ -43,16 +45,19 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 
     public static ArrayList<TriggerCondition> conditions = new ArrayList<>();
     private ArrayList<String> actuators = new ArrayList<>();
+    public static ArrayList<String> actuatorCommands = new ArrayList<>();
     private String triggerConditionString= "";
     private TextView tv;
+    private Actuator actuator;
+    private ListView actuatorsList;
     public static String router_id;
     public static TriggerCondition first;
     public static TriggerCondition second;
     public static boolean firstDrop = true;
     public static boolean group = false;
     public static DragSelectTouchListener mDragSelectTouchListener;
-    private String actuator;
-    private String feedback ;
+    int groups = 0;
+
     private RecyclerView tcList;
     private TextView bin;
 
@@ -64,21 +69,34 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
         Bundle bundle = this.getArguments();
         tcList = view.findViewById(R.id.tc_list_view);
 		bin = view.findViewById(R.id.bin);
+		actuatorsList = view.findViewById(R.id.actuators);
 		displayList();
 		DragSelectTouchListener.OnAdvancedDragSelectListener onDragSelectionListener = new DragSelectTouchListener.OnAdvancedDragSelectListener()
 		{
+			int start;
+			int startGroup;
+			int end;
 			@Override
 			public void onSelectChange(int start, int end, boolean isSelected)
 			{
+				if (conditions.get(start).previous != null || ((start == 0 && conditions.get(0).next != null)))
+				{
 
-				if(isSelected)
-				{
-					conditions.get(start).view.setBackgroundColor(Color.MAGENTA);
-					conditions.get(start).view.invalidate();
-				}
-				else
-				{
-					conditions.get(start).view.setBackgroundColor(Color.TRANSPARENT);
+					if (isSelected)
+					{
+						conditions.get(start).oldGroup = conditions.get(start).groupNumber;
+						conditions.get(start).view.setBackgroundColor(Color.MAGENTA);
+						conditions.get(start).groupNumber = groups;
+						((TextView) conditions.get(start).view.findViewById(R.id.tv_group)).setText("Group: " + conditions.get(start).groupNumber);
+					} else
+					{
+						conditions.get(start).view.setBackgroundColor(Color.TRANSPARENT);
+						conditions.get(start).groupNumber = conditions.get(start).oldGroup;
+						if (conditions.get(start).groupNumber == -1)
+							((TextView) conditions.get(start).view.findViewById(R.id.tv_group)).setText("");
+						else
+							((TextView) conditions.get(start).view.findViewById(R.id.tv_group)).setText("Group: " + conditions.get(start).groupNumber);
+					}
 					conditions.get(start).view.invalidate();
 				}
 			}
@@ -86,16 +104,32 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 			@Override
 			public void onSelectionStarted(int start)
 			{
-				conditions.get(start).view.setBackgroundColor(Color.MAGENTA);
-				conditions.get(start).view.invalidate();
+				if(conditions.get(start).previous != null || (start == 0 && conditions.get(0).next != null))
+				{
+					groups++;
+					this.start = start;
+					startGroup = conditions.get(start).groupNumber;
+					conditions.get(start).view.setBackgroundColor(Color.MAGENTA);
+					conditions.get(start).groupNumber = groups;
+					((TextView) conditions.get(start).view.findViewById(R.id.tv_group)).setText("Group: " + conditions.get(start).groupNumber);
+					conditions.get(start).view.invalidate();
+				}
 			}
 
 			@Override
 			public void onSelectionFinished(int end) {
+				if(end == start)
+				{
+					conditions.get(end).groupNumber = startGroup;
+					if (conditions.get(end).groupNumber == -1)
+					((TextView) conditions.get(end).view.findViewById(R.id.tv_group)).setText("");
+						else
+					((TextView) conditions.get(end).view.findViewById(R.id.tv_group)).setText("Group: " + conditions.get(end).groupNumber);
+					conditions.get(start).view.invalidate();
+				}
 				System.out.println("Finished drag: " + end);
 				group = false;
-				for (TriggerCondition tc :
-						conditions)
+				for (TriggerCondition tc : conditions)
 				{
 					tc.view.setBackgroundColor(Color.TRANSPARENT);
 				}
@@ -137,15 +171,15 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
             public void onClick(View v)
             {
             	update(conditions);
-                SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getContext());
-                /*String encodeURL = null;
+                SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getActivity());
+                String encodeURL = null;
                 try {
                     encodeURL = URLEncoder.encode( triggerConditionString, "UTF-8" );
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
 
-                setScriptRestOperation.Start(encodeURL, router_id);*/
+                setScriptRestOperation.Start(encodeURL, router_id);
             }
         });
 
@@ -186,7 +220,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 						conditions.remove(first);
 						if(conditions.size() <= 1)
 							firstDrop = true;
-						displayList();
+						update(conditions);
 						view.setBackgroundColor(Color.TRANSPARENT);
 						// Invalidates the view to force a redraw
 						view.invalidate();
@@ -210,7 +244,6 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 		}
 	});
         tv = view.findViewById(R.id.tv);
-        tv.setText(feedback);
         tv.setTextColor(Color.parseColor("#FFFFFF"));
         return view;
     }
@@ -218,8 +251,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
     public void update(ArrayList<TriggerCondition> updatedConditions)
     {
         conditions = updatedConditions;
-        triggerConditionString = "while True:\n" +
-                "    if(";
+        triggerConditionString = "if(";
         TriggerCondition head = conditions.get(0);
         if(head.next != null)
 		{
@@ -227,14 +259,47 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 			{
 				if (head.logicalOperator != null)
 					triggerConditionString += " " + head.logicalOperator + " ";
+
+				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+					;
+				else if(head.previous != null)
+					if(head.previous.groupNumber != head.groupNumber && head.groupNumber != -1)
+						triggerConditionString += "(";
+
+
+
+				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+					;
+				else if(head.previous == null)
+					if(head.groupNumber != -1)
+						triggerConditionString += "(";
+
 				triggerConditionString += "sensors[\"" + head.sensorName + "\"].";
 				triggerConditionString += head.metric + head.relationalOperator + head.threshold;
+
+
+				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+					;
+				else if(head.next != null)
+					if(head.next.groupNumber != head.groupNumber && head.groupNumber != -1)
+						triggerConditionString += ")";
+
+
+				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+					;
+				else if(head.next == null)
+					if(head.groupNumber != -1)
+						triggerConditionString += ")";
+
+
 				head = head.next;
 			} while (head != null);
 		}
-        triggerConditionString += "):\n" +
-                "        print (\"" + actuator+"\")\n" +
-                "        time.sleep(3)\n";
+        triggerConditionString += "):\n";
+		for (int i = 0; i < actuatorCommands.size(); i++)
+		{
+			triggerConditionString += "  " + actuatorCommands.get(i) + "()\n";
+		}
         if(tv != null)
 			tv.setText(triggerConditionString);
 
@@ -291,7 +356,6 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 			}
 			conditions.get(0).logicalOperator = null;
 			update(conditions);
-			displayList();
 		}
 		else
 		{
@@ -305,6 +369,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 				case 1:
 					if(MainActivity.actuators != null)
 					{
+						actuators.clear();
 						for (int i = 0; i < MainActivity.actuators.size(); i++)
 							actuators.add(MainActivity.actuators.get(i).getType());
 						bundle.putStringArray("values",Arrays.copyOf(actuators.toArray(), actuators.toArray().length, String[].class));
@@ -314,10 +379,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 					}
 					break;
 				case 2:
-					bundle.putStringArray("values", new String[]{"Smart Lights"});
-					bundle.putString("title", "Select a service");
-					newFragment.setArguments(bundle);
-					newFragment.show(getChildFragmentManager(), "service");
+					Toast.makeText(getActivity(), "UNDER CONSTRUCTION", Toast.LENGTH_LONG).show();
 					break;
 				case 3:
 					group = true;
@@ -358,7 +420,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
                     "        print (\"lights turn on\")\n" +
                     "        time.sleep(3)";
 
-            SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getContext());
+            SetScriptRestOperation setScriptRestOperation = new SetScriptRestOperation(getActivity());
             String encodeURL = null;
             try
 			{
@@ -371,27 +433,66 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
         }
         else if (mode == 2)
         {
-            feedback += " actuator " + result + " triggers\n";
-            tv.setText(feedback);
-        }
+        	if(MainActivity.actuators != null)
+			{
+				for (int i = 0; i < MainActivity.actuators.size(); i++)
+				{
+					if(MainActivity.actuators.get(i).type.equals(result))
+					{
+						actuator = MainActivity.actuators.get(i);
+						ServiceDialogFragment newFragment = new ServiceDialogFragment();
+						Bundle bundle = new Bundle();
+						String[] actions = Arrays.copyOf(actuator.getFunctions().toArray(), actuator.getFunctions().toArray().length, String[].class);
+						boolean[] checked = new boolean[actions.length];
+						for (int j = 0; j < actions.length; j++)
+						{
+							if(actuatorCommands.contains(actions[j]))
+								checked[j] = true;
+							else checked[j] = false;
+						}
+						bundle.putStringArray("values", actions);
+						bundle.putBooleanArray("checked", checked);
+						bundle.putString("title", "Choose an action");
+
+						newFragment.setArguments(bundle);
+						newFragment.show(getChildFragmentManager(), "service");
+						break;
+					}
+				}
+			}
+		}
     }
 
-    public void displayList()
+	@Override
+	public void actuatorActionAdded(String action)
 	{
-        /*TriggerConditionListAdapter triggerConditionListAdapter = new TriggerConditionListAdapter(getActivity());
-            tcList.setAdapter(triggerConditionListAdapter);
-            triggerConditionListAdapter.notifyDataSetChanged();*/
+		actuatorCommands.add(action);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, actuatorCommands);
+		actuatorsList.setAdapter(adapter);
+		adapter.notifyDataSetChanged();
 
+	}
 
-		// use this setting to improve performance if you know that changes
-		// in content do not change the layout size of the RecyclerView
+	@Override
+	public void actuatorActionRemoved(String action)
+	{
+		actuatorCommands.remove(action);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, actuatorCommands);
+		actuatorsList.setAdapter(adapter);
+		adapter.notifyDataSetChanged();
+	}
+
+	public void displayList()
+	{
+
 		tcList.setHasFixedSize(true);
 
 		// use a linear layout manager
 		LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 		tcList.setLayoutManager(mLayoutManager);
-		tcList.setAdapter( new RecyclerViewAdapter(bin, this, (TriggerConditionsMainFragment) getParentFragment()));
-
+		RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(bin, this, (TriggerConditionsMainFragment) getParentFragment());
+		tcList.setAdapter( recyclerViewAdapter );
+		recyclerViewAdapter.notifyDataSetChanged();
 	}
 
 	public void showMenu()

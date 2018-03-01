@@ -6,7 +6,7 @@ public class RestPaths {
     //TODO Control Actuators
 
     public static final String TAG = "REST OP";
-    public static final String IP = "192.168.1.73";
+    public static final String IP = "sccug-330-02.lancs.ac.uk";
     //public static final String IP = "192.168.0.";
     public static final String URL = "http://" + IP + ":5000";
 

@@ -13,7 +13,7 @@ public class Actuator implements Serializable {
     public static final String PLUG = "PLUG";
 
     private String id;
-    private String type;
+    public String type;
     private ArrayList<String> functions = new ArrayList<>();
 
     public Actuator(String id, String type, String functions) {

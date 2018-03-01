@@ -146,7 +146,7 @@ public class SensorDetailsFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.animator.fade_in_fragment, R.animator.fade_out_fragment);
-                SensorFragment nextFrag = SensorFragment.newInstance(router_id);
+                RouterDevicesFragment nextFrag = RouterDevicesFragment.newInstance(router_id);
                 fragmentTransaction.replace(R.id.main_content_pane, nextFrag,"sensor_fragment")
                         .addToBackStack(null)
                         .commit();

@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="app.android.scc331.rest_test.Fragements.ActuatorsDirectControlFragment">
+
+    <github.hellocsl.cursorwheel.CursorWheelLayout
+        android:layout_marginTop="10sp"
+        app:wheelBackgroundColor="#d3d3d3"
+        android:layout_width="150dip"
+        android:layout_height="150dip"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/wheel_actuators"
+        app:wheelCursorColor="#009688"
+        app:wheelCursorHeight="19dip"
+        app:wheelItemRotateMode="none"
+        app:wheelSelectedAngle="270"
+
+        >
+        <TextView
+            style="@style/TextAppearance.AppCompat.Large.Inverse"
+            android:id="@+id/id_wheel_menu_center_item"
+            android:text="Actuators"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </github.hellocsl.cursorwheel.CursorWheelLayout>
+
+    <github.hellocsl.cursorwheel.CursorWheelLayout
+        android:layout_marginTop="10sp"
+        android:layout_width="325dip"
+        android:layout_height="325dip"
+        android:layout_below="@id/wheel_actuators"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/wheel_actions"
+        app:wheelCursorColor="#009688"
+        app:wheelCursorHeight="19dip"
+        app:wheelItemRotateMode="none"
+        app:wheelSelectedAngle="270"
+        app:wheelBackgroundColor="#d3d3d3"
+        app:wheelPaddingRadio="0"
+        >
+        <TextView
+            style="@style/TextAppearance.AppCompat.Large.Inverse"
+            android:id="@+id/id_wheel_menu_center_item"
+            android:text="Actions"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="DuplicateIds" />
+
+    </github.hellocsl.cursorwheel.CursorWheelLayout>
+    <Button
+        android:id="@+id/executeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wheel_actions"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:text="Execute"/>
+</RelativeLayout>
