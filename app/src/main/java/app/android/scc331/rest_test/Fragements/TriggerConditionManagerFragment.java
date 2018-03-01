@@ -178,7 +178,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
+                Toast.makeText(getActivity(), "Trigger Script Sent!", Toast.LENGTH_LONG).show();
                 setScriptRestOperation.Start(encodeURL, router_id);
             }
         });
@@ -250,59 +250,62 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 
     public void update(ArrayList<TriggerCondition> updatedConditions)
     {
+
         conditions = updatedConditions;
+		if(!conditions.isEmpty())
+		{
         triggerConditionString = "if(";
         TriggerCondition head = conditions.get(0);
-        if(head.next != null)
-		{
-			do
+
+			if (head.next != null || conditions.size() == 1)
 			{
-				if (head.logicalOperator != null)
-					triggerConditionString += " " + head.logicalOperator + " ";
+				do
+				{
+					if (head.logicalOperator != null)
+						triggerConditionString += " " + head.logicalOperator + " ";
 
-				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
-					;
-				else if(head.previous != null)
-					if(head.previous.groupNumber != head.groupNumber && head.groupNumber != -1)
-						triggerConditionString += "(";
-
-
-
-				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
-					;
-				else if(head.previous == null)
-					if(head.groupNumber != -1)
-						triggerConditionString += "(";
-
-				triggerConditionString += "sensors[\"" + head.sensorName + "\"].";
-				triggerConditionString += head.metric + head.relationalOperator + head.threshold;
+					if (head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+						;
+					else if (head.previous != null)
+						if (head.previous.groupNumber != head.groupNumber && head.groupNumber != -1)
+							triggerConditionString += "(";
 
 
-				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
-					;
-				else if(head.next != null)
-					if(head.next.groupNumber != head.groupNumber && head.groupNumber != -1)
-						triggerConditionString += ")";
+					if (head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+						;
+					else if (head.previous == null)
+						if (head.groupNumber != -1)
+							triggerConditionString += "(";
+
+					triggerConditionString += "sensors[\"" + head.sensorName + "\"].";
+					triggerConditionString += head.metric + head.relationalOperator + head.threshold;
 
 
-				if(head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
-					;
-				else if(head.next == null)
-					if(head.groupNumber != -1)
-						triggerConditionString += ")";
+					if (head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+						;
+					else if (head.next != null)
+						if (head.next.groupNumber != head.groupNumber && head.groupNumber != -1)
+							triggerConditionString += ")";
 
 
-				head = head.next;
-			} while (head != null);
+					if (head.previous != null && head.next != null && head.previous.groupNumber != head.groupNumber && head.next.groupNumber != head.groupNumber)
+						;
+					else if (head.next == null)
+						if (head.groupNumber != -1)
+							triggerConditionString += ")";
+
+
+					head = head.next;
+				} while (head != null);
+			}
+			triggerConditionString += "):\n";
+			for (int i = 0; i < actuatorCommands.size(); i++)
+			{
+				triggerConditionString += "  " + actuatorCommands.get(i) + "()\n";
+			}
+			/*if(tv != null)
+				tv.setText(triggerConditionString);*/
 		}
-        triggerConditionString += "):\n";
-		for (int i = 0; i < actuatorCommands.size(); i++)
-		{
-			triggerConditionString += "  " + actuatorCommands.get(i) + "()\n";
-		}
-        if(tv != null)
-			tv.setText(triggerConditionString);
-
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)

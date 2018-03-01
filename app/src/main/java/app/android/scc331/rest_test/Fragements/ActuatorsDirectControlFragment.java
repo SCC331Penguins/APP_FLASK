@@ -74,7 +74,6 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 		if(MainActivity.actuators != null)
 		{
 			actuators = MainActivity.actuators;
-			actuators.get(0).type = "Lights";
 			for (int i = 0; i < actuators.size(); i++)
 			{
 				Actuator actuator = actuators.get(i);
@@ -83,7 +82,8 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 					actuatorsList.add(new ImageData(R.drawable.ic_light_sensor, "Smart Light"));
 				else if(actuator.getType().equals("Kettle"))
 					actuatorsList.add(new ImageData(R.drawable.ic_kettle, "Smart Kettle"));
-
+				else if (actuator.getType().equals("Plug"))
+					actuatorsList.add(new ImageData(R.drawable.ic_plug, "Plug"));
 			}
 			WheelImageAdapter wheelImageAdapter = new WheelImageAdapter(getActivity(), actuatorsList);
 			actuatorsWheel.setAdapter(wheelImageAdapter);
@@ -98,6 +98,7 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 				@Override
 				public void onClick(View view)
 				{
+					Toast.makeText(getActivity(), "Action executed.", Toast.LENGTH_LONG).show();
 					MainActivity.mqttConnection.sendCommand(actuators.get(actuatorsWheel.getSelectedPosition()), actionsList.get(actionsWheel.getSelectedPosition()).title);
 				}
 			});
