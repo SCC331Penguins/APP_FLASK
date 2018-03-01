@@ -20,4 +20,6 @@ public class TriggerCondition implements Serializable
     public TriggerCondition next = null;
     public TriggerCondition previous = null;
     public View view = null;
+    public int oldGroup = -1;
+    public int groupNumber = -1;
 }

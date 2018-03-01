@@ -134,7 +134,10 @@ public class TriggerConditionBuilderFragment extends Fragment
                 if (edit)
 					index = TriggerConditionManagerFragment.conditions.indexOf(triggerCondition);
                 triggerCondition.threshold = threshold.getText().toString();
-                triggerCondition.relationalOperator = operatorsSpinner.getSelectedItem().toString();
+                if(operatorsSpinner.getSelectedItem().toString().equals("="))
+                    triggerCondition.relationalOperator = "==";
+                else
+                    triggerCondition.relationalOperator = operatorsSpinner.getSelectedItem().toString();
                 triggerCondition.metric = metricsSpinner.getSelectedItem().toString();
                 triggerCondition.sensorName = sensorsSpinner.getSelectedItem().toString();
 				if(edit)

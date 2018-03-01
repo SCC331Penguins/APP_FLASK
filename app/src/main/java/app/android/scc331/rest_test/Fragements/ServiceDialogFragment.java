@@ -17,6 +17,8 @@ public class ServiceDialogFragment extends DialogFragment
 {
     public interface NoticeDialogListener {
         public void onDialogClick(int mode, String result);
+        public void actuatorActionAdded(String action);
+        public void actuatorActionRemoved(String action);
 
     }
 
@@ -27,32 +29,56 @@ public class ServiceDialogFragment extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle bundle = this.getArguments();
         String[] values = null;
+        boolean[] checked = null;
         String title = "Select a service";
         if (bundle != null)
         {
             values = bundle.getStringArray("values");
+            checked = bundle.getBooleanArray("checked");
             title = bundle.getString("title");
         }
 
         final String finalTitle = title;
         final String[] finalValues = values;
         builder.setTitle(title);
-        builder.setItems(values, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which)
+        if(!title.equals("Choose an action"))
+        {
+            builder.setItems(values, new DialogInterface.OnClickListener()
             {
-                if(finalTitle.equals("Select a service"))
-                    mListener.onDialogClick(0, finalValues[which]);
-                else if (finalTitle.equals("Choose a sensor to use for service"))
-                    mListener.onDialogClick(1, finalValues[which]);
-                else
-                    mListener.onDialogClick(2, finalValues[which]);
-            }
-        });
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    if (finalTitle.equals("Select a service"))
+                        mListener.onDialogClick(0, finalValues[which]);
+                    else if (finalTitle.equals("Choose a sensor to use for service"))
+                        mListener.onDialogClick(1, finalValues[which]);
+                    else
+                        mListener.onDialogClick(2, finalValues[which]);
+                }
+            });
+        }
+        else
+        {
+            String[] finalValues1 = values;
+            builder.setMultiChoiceItems(values, checked, new DialogInterface.OnMultiChoiceClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int which, boolean isChecked)
+                {
+                    if(isChecked)
+                        mListener.actuatorActionAdded(finalValues1[which]);
+                    else
+                        mListener.actuatorActionRemoved(finalValues1[which]);
+
+
+                }
+            });
+        }
         AlertDialog dialog = builder.create();
         return dialog;
     }
 
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {

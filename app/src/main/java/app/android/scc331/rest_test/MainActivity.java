@@ -35,7 +35,7 @@ import app.android.scc331.rest_test.Fragements.LiveDataFragment;
 import app.android.scc331.rest_test.Fragements.MainFragment;
 import app.android.scc331.rest_test.Fragements.RouterFragement;
 import app.android.scc331.rest_test.Fragements.SensorDetailsFragment;
-import app.android.scc331.rest_test.Fragements.SensorFragment;
+import app.android.scc331.rest_test.Fragements.RouterDevicesFragment;
 import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.SavedState;
@@ -52,7 +52,6 @@ import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
         RouterFragement.OnFragmentInteractionListener,
-        SensorFragment.OnFragmentInteractionListener,
         SensorDetailsFragment.OnFragmentInteractionListener,
         LiveDataFragment.LiveDataInteractionListener,
         MQTTConnection.Callbacks,
