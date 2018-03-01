@@ -355,7 +355,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 				Collections.swap(conditions, conditions.indexOf(first), conditions.indexOf(second) + 1);
 			}
 			conditions.get(0).logicalOperator = null;
-			update(conditions);
+			displayList();
 		}
 		else
 		{

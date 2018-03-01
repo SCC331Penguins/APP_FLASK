@@ -43,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 		TextView id;
 		TextView metric;
 		TextView condition;
+		TextView group;
 		ImageView icon;
 		TextView logical;
 		Activity context;
@@ -55,6 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 			condition = row.findViewById(R.id.tv_condition);
 			icon = row.findViewById(R.id.tc_image);
 			logical = row.findViewById(R.id.tv_logical_operator);
+			group = row.findViewById(R.id.tv_group);
 			this.context = (Activity) context;
 			this.row = row;
 		}
@@ -101,6 +103,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 		else if (triggerCondition.metric.equals("uv"))
 			holder.icon.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_uv_sensor));
 		triggerCondition.view = holder.itemView;
+		if (triggerCondition.groupNumber == -1)
+			holder.group.setText("");
+		else
+			holder.group.setText("Group: " + triggerCondition.groupNumber);
 		holder.id.setText(triggerCondition.sensorName);
 		holder.metric.setText(triggerCondition.metric);
 		holder.condition.setText(triggerCondition.relationalOperator + " " +triggerCondition.threshold);
