@@ -77,10 +77,6 @@ public class SensorListFragment extends Fragment {
 			System.out.println(functions.toString());
 		}
 
-		OpenConnection openConnection = (MainActivity) getActivity();
-
-		openConnection.openConnection(router_id);
-
 		if(sensors !=null) {
 			Sensor[] sensorToArray = new Sensor[sensors.size()];
 			sensorToArray = sensors.toArray(sensorToArray);

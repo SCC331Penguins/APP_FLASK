@@ -16,6 +16,7 @@ import java.util.List;
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.R;
+import app.android.scc331.rest_test.Services.APIActuatorControlRest;
 import app.android.scc331.rest_test.Util.ImageData;
 import app.android.scc331.rest_test.Util.MenuItemData;
 import app.android.scc331.rest_test.Util.WheelImageAdapter;
@@ -35,6 +36,7 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	List<ImageData> actuatorsList;
 	ArrayList<Actuator> actuators = MainActivity.actuators;
 	Button execute;
+	String router_id;
 	public ActuatorsDirectControlFragment()
 	{
 		// Required empty public constructor
@@ -47,9 +49,12 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	 * @return A new instance of fragment ActuatorsDirectControlFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
-	public static ActuatorsDirectControlFragment newInstance()
+	public static ActuatorsDirectControlFragment newInstance(String router_id)
 	{
 		ActuatorsDirectControlFragment fragment = new ActuatorsDirectControlFragment();
+		Bundle args = new Bundle();
+		args.putString("router_id", router_id);
+		fragment.setArguments(args);
 		return fragment;
 	}
 
@@ -57,6 +62,9 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		if (getArguments() != null) {
+			router_id = getArguments().getString("router_id");
+		}
 
 	}
 
@@ -86,9 +94,8 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 					actuatorsList.add(new ImageData(R.drawable.ic_plug, "Plug"));
 			}
 			WheelImageAdapter wheelImageAdapter = new WheelImageAdapter(getActivity(), actuatorsList);
+			//TODO FIX THIS ERROR
 			actuatorsWheel.setAdapter(wheelImageAdapter);
-
-
 
 			actuatorsWheel.setSelection(1);
 			actuatorsWheel.setOnMenuSelectedListener(this);
@@ -99,7 +106,12 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 				public void onClick(View view)
 				{
 					Toast.makeText(getActivity(), "Action executed.", Toast.LENGTH_LONG).show();
-					MainActivity.mqttConnection.sendCommand(actuators.get(actuatorsWheel.getSelectedPosition()), actionsList.get(actionsWheel.getSelectedPosition()).title);
+					//MainActivity.mqttConnection.sendCommand(actuators.get(actuatorsWheel.getSelectedPosition()), actionsList.get(actionsWheel.getSelectedPosition()).title);
+					Actuator actuator = actuators.get(actuatorsWheel.getSelectedPosition());
+
+					APIActuatorControlRest apiActuatorControlRest = new APIActuatorControlRest(getActivity());
+					apiActuatorControlRest.Start(actuators.get(actuatorsWheel.getSelectedPosition()).getId(),
+							actionsList.get(actionsWheel.getSelectedPosition()).title, router_id);
 				}
 			});
 		}

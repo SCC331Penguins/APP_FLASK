@@ -174,7 +174,7 @@ public class SensorDetailsFragment extends Fragment {
     }
 
     private void saveSensor(){
-        SetSensorsRestOperation setSensorsRestOperation = new SetSensorsRestOperation(getContext());
+        SetSensorsRestOperation setSensorsRestOperation = new SetSensorsRestOperation(getActivity());
         setSensorsRestOperation.Start(MainActivity.sensors, router_id);
     }
 

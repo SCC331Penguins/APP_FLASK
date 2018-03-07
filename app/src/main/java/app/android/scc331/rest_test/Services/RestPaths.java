@@ -6,9 +6,9 @@ public class RestPaths {
     //TODO Control Actuators
 
     public static final String TAG = "REST OP";
-    public static final String IP = "sccug-330-02.lancs.ac.uk";
+    public static final String IP = "192.168.1.73";
     //public static final String IP = "192.168.0.";
-    public static final String URL = "http://" + IP + ":5000";
+    public static final String URL = "http://" + IP + ":5001";
 
     public static final String PATH_GET_ROUTER = URL + "/router/get_router";
     public static final String PATH_SET_ROUTER = URL + "/router/claim_router";
@@ -23,4 +23,5 @@ public class RestPaths {
     public static final String PATH_GET_ACTUATOR = URL + "/router/get_actuators";
     public static final String PATH_OPEN_CHANNEL = URL + "/api/requestLiveData";
     public static final String PATH_GET_HISTORIC = URL + "/historic/get_history";
+    public static final String PATH_ACTUATOR_CONTROL = URL + "/api/actuator_control";
 }
