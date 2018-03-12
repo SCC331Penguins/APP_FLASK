@@ -20,7 +20,8 @@ public class Actuator implements Serializable {
         this.id = id;
         this.type = type;
         JSONArray jsonArray = null;
-        try {
+        if(functions != null)
+            try {
             jsonArray = new JSONArray(functions);
             for (int i = 0; i < jsonArray.length(); i++) {
                 this.functions.add(jsonArray.getString(i));

@@ -43,11 +43,13 @@ import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.Elements.Command;
 import app.android.scc331.rest_test.Services.LiveData.Elements.LiveData;
 import app.android.scc331.rest_test.Services.LiveData.Elements.SpinnerSensorListener;
 import app.android.scc331.rest_test.Services.LiveData.MQTTConnection;
 import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
 import app.android.scc331.rest_test.Services.PingRestServer;
+import app.android.scc331.rest_test.Services.SetButtonRestOperation;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,

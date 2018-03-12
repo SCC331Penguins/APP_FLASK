@@ -21,6 +21,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import java.util.ArrayList;
 
 import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.Graphs.LineChartElement;
 import app.android.scc331.rest_test.Objects.HistoricData;
 import app.android.scc331.rest_test.Objects.HistoricDataSet;
@@ -30,7 +31,9 @@ import app.android.scc331.rest_test.RoomMaker.CustomZoomableImageView;
 import app.android.scc331.rest_test.Services.GetHistoricDataRestOperation;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
+import app.android.scc331.rest_test.Services.LiveData.Elements.Command;
 import app.android.scc331.rest_test.Services.LiveData.Elements.LiveDataGraph;
+import app.android.scc331.rest_test.Services.SetButtonRestOperation;
 
 public class MainFragment extends Fragment {
 
@@ -64,8 +67,13 @@ public class MainFragment extends Fragment {
         stopLiveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = DatePicker.newInstance(0);
-                newFragment.show(getFragmentManager(), "datePicker");
+                Actuator actuator = new Actuator("AA:BB:CC", "Lights", "setAllOn");
+
+                SetButtonRestOperation setButtonRestOperation = new SetButtonRestOperation(getActivity());
+                setButtonRestOperation.Start("SCC33102_R01",new Command(actuator, "setAllOn"),
+                        new Command(actuator, "setAllOn"), new Command(actuator, "setAllOn"),
+                        new Command(actuator, "setAllOff"));
+                ;
             }
         });
         liveData = v.findViewById(R.id.live_data_text);
