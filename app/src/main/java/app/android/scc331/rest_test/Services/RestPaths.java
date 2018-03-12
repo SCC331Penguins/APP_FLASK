@@ -26,4 +26,5 @@ public class RestPaths {
     public static final String PATH_ACTUATOR_CONTROL = URL + "/api/actuator_control";
     public static final String PATH_SET_BUTTONS = URL + "/api/set_button";
     public static final String PATH_ARM_SYSTEM = URL + "/api/arm_system";
+    public static final String PATH_PHONE_LOCATION = URL + "/api/phone_location";
 }

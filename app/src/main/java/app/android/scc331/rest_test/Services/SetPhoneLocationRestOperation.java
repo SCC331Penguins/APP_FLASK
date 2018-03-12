@@ -19,11 +19,7 @@ import java.io.IOException;
 
 import app.android.scc331.rest_test.Services.LiveData.Elements.Command;
 
-/**
- * Created by Alex Stout on 12/03/2018.
- */
-
-public class SetArmRestOperation {
+public class SetPhoneLocationRestOperation {
 
     private Context context;
 
@@ -31,7 +27,7 @@ public class SetArmRestOperation {
 
     private HttpClient httpClient;
 
-    public SetArmRestOperation(Context context){
+    public SetPhoneLocationRestOperation(Context context){
         this.context = context;
         HttpParams httpParams = new BasicHttpParams();
         int timeoutConnection = 10000;
@@ -41,9 +37,9 @@ public class SetArmRestOperation {
         httpClient = new DefaultHttpClient(httpParams);
     }
 
-    public void Start(String router_id, boolean armed){
+    public void Start(String router_id, String sensor_id){
         try {
-            new PostTask(router_id, armed).execute();
+            new PostTask(router_id, sensor_id).execute();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -53,17 +49,17 @@ public class SetArmRestOperation {
     public class PostTask extends AsyncTask<String, Integer, String> {
 
         private String router_id;
-        private boolean armed;
+        private String sensor_id;
 
-        PostTask(String router_id, boolean armed){
+        PostTask(String router_id, String sensor_id){
             this.router_id = router_id;
-            this.armed = armed;
+            this.sensor_id = sensor_id;
         }
 
         @Override
         protected String doInBackground(String... strings) {
             try{
-                performPost(router_id, armed);
+                performPost(router_id, sensor_id);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -71,19 +67,15 @@ public class SetArmRestOperation {
         }
     }
 
-    public Object performPost(String router_id, boolean armed) throws IOException, JSONException {
+    public Object performPost(String router_id, String sensor_id) throws IOException, JSONException {
 
-        HttpPost post = new HttpPost(RestPaths.PATH_ARM_SYSTEM);
+        HttpPost post = new HttpPost(RestPaths.PATH_PHONE_LOCATION);
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("com.set.app",Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token","");
 
         StringBuilder s = new StringBuilder();
-        int arm = 0;
-        if (armed)
-            arm = 1;
-
-        s.append("{\"token\":\"" + token +"\", \"router_id\":\""+router_id+"\", \"armed\":"+armed+"}");
+        s.append("{\"token\":\"" + token +"\", \"router_id\":\""+router_id+"\", \"sensor_id\":\""+sensor_id+"\"}");
 
         Log.i(TAG, s.toString());
 

@@ -36,6 +36,7 @@ import app.android.scc331.rest_test.Services.LiveData.Elements.Command;
 import app.android.scc331.rest_test.Services.LiveData.Elements.LiveDataGraph;
 import app.android.scc331.rest_test.Services.SetArmRestOperation;
 import app.android.scc331.rest_test.Services.SetButtonRestOperation;
+import app.android.scc331.rest_test.Services.SetPhoneLocationRestOperation;
 
 public class MainFragment extends Fragment {
 
@@ -69,8 +70,8 @@ public class MainFragment extends Fragment {
         stopLiveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SetArmRestOperation setArmRestOperation = new SetArmRestOperation(getActivity());
-                setArmRestOperation.Start("SCC33102_R01", true);
+                SetPhoneLocationRestOperation setPhoneLocationRestOperation = new SetPhoneLocationRestOperation(getActivity());
+                setPhoneLocationRestOperation.Start("SCC33102_R01", "wl123s1l23");
             }
         });
         liveData = v.findViewById(R.id.live_data_text);
