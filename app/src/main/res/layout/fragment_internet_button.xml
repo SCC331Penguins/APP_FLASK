@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bb_darkBackgroundColor"
+    android:orientation="vertical"
+    tools:context="app.android.scc331.rest_test.Fragements.InternetButtonFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7.9"
+        android:padding="5dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:layout_gravity="top"
+            android:paddingTop="1dp"
+            android:textColor="#FFF"
+            android:textSize="30sp"
+            android:text="Internet Button Setup"
+            android:textAlignment="center"/>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_marginRight="25dp"
+                android:layout_gravity="center"
+                android:id="@+id/button_1"
+                android:layout_weight="1"
+                android:background="@drawable/off_red"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+            <ImageView
+                android:layout_marginRight="25dp"
+                android:layout_gravity="center"
+                android:id="@+id/button_2"
+                android:layout_weight="1"
+                android:background="@drawable/off_red"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+            <ImageView
+                android:layout_marginRight="25dp"
+                android:layout_gravity="center"
+                android:id="@+id/button_3"
+                android:layout_weight="1"
+                android:background="@drawable/off_red"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/button_4"
+                android:layout_weight="1"
+                android:background="@drawable/off_red"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <github.hellocsl.cursorwheel.CursorWheelLayout
+        android:layout_weight="3.7"
+        android:layout_marginBottom="0sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:id="@+id/wheel_internet_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:wheelGuideLineColor="@color/colorPrimaryDark"
+        app:wheelBackgroundColor="#dddddd"
+        app:wheelCenterRadio="0.6"
+        app:wheelCursorColor="#009688"
+        app:wheelCursorHeight="25dip"
+        app:wheelPaddingRadio="0"
+        app:wheelItemRotateMode="none"
+        app:wheelSelectedAngle="270"
+        >
+
+        <ImageView
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/id_wheel_menu_center_item"
+            android:background="@mipmap/ic_internet_button_foreground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </github.hellocsl.cursorwheel.CursorWheelLayout>
+
+    <LinearLayout
+        android:background="#aaaaaa"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8.9"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/actuators_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Spinner>
+
+        <Spinner
+            android:id="@+id/actions_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Spinner>
+    </LinearLayout>
+    <Button
+        android:id="@+id/bind_button"
+        android:text="Bind action to button"
+        android:layout_weight="8.8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/internet_button_confirm"
+        android:text="Confirm"
+        android:layout_weight="8.8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

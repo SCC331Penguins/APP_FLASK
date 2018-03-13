@@ -18,7 +18,7 @@ import app.android.scc331.rest_test.R;
 
 public class RouterDevicesFragment extends Fragment {
 
-    private String router_id;
+    public static String router_id;
     private String TAG = "SENSOR";
     ViewPager pager;
     private Button add_script;
@@ -85,7 +85,7 @@ public class RouterDevicesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 2;
+            return 4;
         }
 
         @Override
@@ -96,7 +96,11 @@ public class RouterDevicesFragment extends Fragment {
                 case 0:
                     return SensorListFragment.newInstance(router_id);
                 case 1:
-                    return ActuatorsDirectControlFragment.newInstance(router_id);
+                    return ActuatorsDirectControlFragment.newInstance();
+                case 2:
+                    return AlarmFragment.newInstance();
+                case 3:
+                    return InternetButtonFragment.newInstance();
             }
             return null;
         }

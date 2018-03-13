@@ -16,7 +16,6 @@ import java.util.List;
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.R;
-import app.android.scc331.rest_test.Services.APIActuatorControlRest;
 import app.android.scc331.rest_test.Util.ImageData;
 import app.android.scc331.rest_test.Util.MenuItemData;
 import app.android.scc331.rest_test.Util.WheelImageAdapter;
@@ -35,8 +34,8 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	List<MenuItemData> actionsList;
 	List<ImageData> actuatorsList;
 	ArrayList<Actuator> actuators = MainActivity.actuators;
+	ArrayList<Actuator> actuatorsReal = new ArrayList<>();
 	Button execute;
-	String router_id;
 	public ActuatorsDirectControlFragment()
 	{
 		// Required empty public constructor
@@ -48,13 +47,9 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	 *
 	 * @return A new instance of fragment ActuatorsDirectControlFragment.
 	 */
-	// TODO: Rename and change types and number of parameters
-	public static ActuatorsDirectControlFragment newInstance(String router_id)
+	public static ActuatorsDirectControlFragment newInstance()
 	{
 		ActuatorsDirectControlFragment fragment = new ActuatorsDirectControlFragment();
-		Bundle args = new Bundle();
-		args.putString("router_id", router_id);
-		fragment.setArguments(args);
 		return fragment;
 	}
 
@@ -62,9 +57,6 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			router_id = getArguments().getString("router_id");
-		}
 
 	}
 
@@ -85,17 +77,26 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 			for (int i = 0; i < actuators.size(); i++)
 			{
 				Actuator actuator = actuators.get(i);
-				System.out.println(actuator.getType());
 				if(actuator.getType().equals("Lights"))
+				{
+					actuatorsReal.add(actuator);
 					actuatorsList.add(new ImageData(R.drawable.ic_light_sensor, "Smart Light"));
+				}
 				else if(actuator.getType().equals("Kettle"))
+				{
+					actuatorsReal.add(actuator);
 					actuatorsList.add(new ImageData(R.drawable.ic_kettle, "Smart Kettle"));
+				}
 				else if (actuator.getType().equals("Plug"))
+				{
+					actuatorsReal.add(actuator);
 					actuatorsList.add(new ImageData(R.drawable.ic_plug, "Plug"));
+				}
 			}
 			WheelImageAdapter wheelImageAdapter = new WheelImageAdapter(getActivity(), actuatorsList);
-			//TODO FIX THIS ERROR
 			actuatorsWheel.setAdapter(wheelImageAdapter);
+
+
 
 			actuatorsWheel.setSelection(1);
 			actuatorsWheel.setOnMenuSelectedListener(this);
@@ -106,17 +107,12 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 				public void onClick(View view)
 				{
 					Toast.makeText(getActivity(), "Action executed.", Toast.LENGTH_LONG).show();
-					//MainActivity.mqttConnection.sendCommand(actuators.get(actuatorsWheel.getSelectedPosition()), actionsList.get(actionsWheel.getSelectedPosition()).title);
-					Actuator actuator = actuators.get(actuatorsWheel.getSelectedPosition());
-
-					APIActuatorControlRest apiActuatorControlRest = new APIActuatorControlRest(getActivity());
-					apiActuatorControlRest.Start(actuators.get(actuatorsWheel.getSelectedPosition()).getId(),
-							actionsList.get(actionsWheel.getSelectedPosition()).title, router_id);
+					MainActivity.mqttConnection.sendCommand(actuators.get(actuatorsWheel.getSelectedPosition()), actionsList.get(actionsWheel.getSelectedPosition()).title);
 				}
 			});
 		}
 
-		// Inflate the layout for this fragment
+		// Inflate the alarm_toggle_states for this fragment
 		return view;
 	}
 
@@ -124,9 +120,9 @@ public class ActuatorsDirectControlFragment extends Fragment implements CursorWh
 	@Override
 	public void onItemSelected(CursorWheelLayout parent, View view, int pos)
 	{
-		if(parent.getId() == R.id.wheel_actuators)
+		if(parent.getId() == R.id.wheel_actuators && parent.getSelectedPosition() != -1)
 		{
-			Actuator actuator =	actuators.get(parent.getSelectedPosition());
+			Actuator actuator =	actuatorsReal.get(parent.getSelectedPosition());
 			actionsList.clear();
 			for (int j = 0; j < actuator.getFunctions().size(); j++)
 			{

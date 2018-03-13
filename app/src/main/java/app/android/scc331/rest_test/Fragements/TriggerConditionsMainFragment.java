@@ -32,7 +32,7 @@ public class TriggerConditionsMainFragment extends Fragment implements OnSubmitL
         fragment.setArguments(bundle);
         ft.replace(R.id.fragmentFrameMain, fragment);
         ft.commit();
-        // Inflate the layout for this fragment
+        // Inflate the alarm_toggle_states for this fragment
         return view;
     }
 

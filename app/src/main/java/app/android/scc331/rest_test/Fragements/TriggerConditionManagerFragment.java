@@ -490,7 +490,7 @@ public class TriggerConditionManagerFragment extends Fragment implements Service
 
 		tcList.setHasFixedSize(true);
 
-		// use a linear layout manager
+		// use a linear alarm_toggle_states manager
 		LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 		tcList.setLayoutManager(mLayoutManager);
 		RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(bin, this, (TriggerConditionsMainFragment) getParentFragment());
