@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -31,12 +32,14 @@ import android.widget.Toast;
 import junit.framework.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.R;
 import app.android.scc331.rest_test.Services.GetSensorRestOperation;
+import app.android.scc331.rest_test.Services.SetRoomRestOperation;
 
 import static app.android.scc331.rest_test.Services.RestPaths.TAG;
 
@@ -129,20 +132,36 @@ public class MapDesignFragment extends Fragment {
                     MainActivity.savedState.saveRouterSensorElements(router_id, null);
                 }
 
+                HashMap<String, String> sensorRooms = new HashMap<>();
 
-                if (sensorElements != null)
+                if (sensorElements != null) {
                     MainActivity.savedState.saveSensorElements(router_id, sensorElementData);
 
-                MainActivity.savedState.saveElements(router_id, elementData);
-                MainActivity.savedState.save(getContext());
+                    for(SensorElement sensorElement : sensorElements){
+                        Element e = findOverlay(sensorElement);
+                        if(e != null) {
+                            System.out.println(e.getlabel());
+                            sensorRooms.put(sensorElement.getSensor_id(), e.getlabel());
+                        }
+                    }
 
+                    for(String key : sensorRooms.keySet()){
+                        Log.d("ROOM ASSIGN", key + " is in: " + sensorRooms.get(key));
+                    }
+                }
+
+                MainActivity.savedState.saveElements(router_id, elementData);
+                MainActivity.savedState.save(getActivity());
+
+                SetRoomRestOperation setRoomRestOperation = new SetRoomRestOperation(getActivity());
+                setRoomRestOperation.Start(router_id, sensorRooms);
 
             }
         });
 
         shake = AnimationUtils.loadAnimation(
 
-                getContext(), R.anim.shake);
+                getActivity(), R.anim.shake);
 
         sensorRouterBar = v.findViewById(R.id.sensor_router_bar);
 
@@ -273,7 +292,7 @@ public class MapDesignFragment extends Fragment {
             for (ElementData element : elementData)
             {
                 Log.d("ELEMENT LOAD", "Loading element: " + element.label_name);
-                Element e = Element.initFromSave(getContext(), element);
+                Element e = Element.initFromSave(getActivity(), element);
                 e.setOnTouchListener(onTouchListener(e));
                 elements.add(e);
                 mainFrame.addView(e);
@@ -282,7 +301,7 @@ public class MapDesignFragment extends Fragment {
 
         {
             saved_router = true;
-            RouterElement routerElement = RouterElement.loadFromSave(getContext(), routerSensorElementData);
+            RouterElement routerElement = RouterElement.loadFromSave(getActivity(), routerSensorElementData);
             routerElement.setOnTouchListener(onTouchListener(null));
             routerElementSave = routerElement;
             mainFrame.addView(routerElement);
@@ -292,10 +311,11 @@ public class MapDesignFragment extends Fragment {
 
         {
             for (RouterSensorElementData rsd : sensorElementData) {
-                SensorElement se = SensorElement.loadFromSave(getContext(), rsd);
+                SensorElement se = SensorElement.loadFromSave(getActivity(), rsd);
                 se.setOnTouchListener(onTouchListener(null));
                 sensorElements.add(se);
                 mainFrame.addView(se);
+                se.bringToFront();
             }
         }
 
@@ -340,7 +360,7 @@ public class MapDesignFragment extends Fragment {
         if (routerElementSave == null)
             addBarElement(SensorRouterBar.ROUTER, router_name, null);
 
-        GetSensorRestOperation getSensorRestOperation = new GetSensorRestOperation(getContext());
+        GetSensorRestOperation getSensorRestOperation = new GetSensorRestOperation(getActivity());
         sensors = (ArrayList<Sensor>) getSensorRestOperation.Start(router_id);
 
         if(sensors != null)
@@ -360,7 +380,8 @@ public class MapDesignFragment extends Fragment {
                 String sensor_name = MainActivity.savedState.getSensorName(s.getId());
                 if (sensor_name == null)
                     sensor_name = s.getId();
-                addBarElement(SensorRouterBar.SENSOR, sensor_name, s_id);
+                addBarElement(SensorRouterBar.SENSOR, sensor_name, s.getId());
+                Log.d("sensor name", s.getId());
             }
         }
 
@@ -369,7 +390,7 @@ public class MapDesignFragment extends Fragment {
 
     private void addBarElement(int type, String name, String id) {
         Log.d("Adding elements", "" + name);
-        SensorRouterBar sensorRouterBar = new SensorRouterBar(getContext(), type, name);
+        SensorRouterBar sensorRouterBar = new SensorRouterBar(getActivity(), type, name);
         sensorRouterBar.setOnClickListener(onBarClickListener(sensorRouterBar, type, name, id));
         this.sensorRouterBar.addView(sensorRouterBar);
     }
@@ -379,7 +400,7 @@ public class MapDesignFragment extends Fragment {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    RouterElement routerElement = new RouterElement(getContext(), name);
+                    RouterElement routerElement = new RouterElement(getActivity(), name);
                     routerElement.setOnTouchListener(onTouchListener(null));
                     sensorRouterBar.removeView(v);
                     routerElementSave = routerElement;
@@ -390,20 +411,26 @@ public class MapDesignFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SensorElement sensorElement = new SensorElement(getContext(), name, id);
+                SensorElement sensorElement = new SensorElement(getActivity(), name, id);
                 sensorElement.setOnTouchListener(onTouchListener(null));
                 sensorRouterBar.removeView(v);
                 sensorElements.add(sensorElement);
                 mainFrame.addView(sensorElement);
+                sensorElement.bringToFront();
             }
         };
     }
 
     private void addFrame(FrameLayout view, int[] type) {
-        Element frame = new Element(getContext(), type);
+        Element frame = new Element(getActivity(), type);
         frame.setOnTouchListener(onTouchListener(frame));
         elements.add(frame);
         view.addView(frame);
+        for(SensorElement sensorElement : sensorElements){
+            sensorElement.bringToFront();
+        }
+        if(routerElementSave != null)
+            routerElementSave.bringToFront();
     }
 
     private View.OnClickListener onBoxClick(final int[] type) {
@@ -465,9 +492,9 @@ public class MapDesignFragment extends Fragment {
 
                             long duration = System.currentTimeMillis() - startTime;
                             if (duration <= 600) {
-                                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                                 final View vw = layoutInflater.inflate(R.layout.change_name_dialog, null);
-                                final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                                 alertDialog.setCancelable(false);
                                 final EditText editname_text = (EditText) vw.findViewById(R.id.editname_edittext);
                                 final Button save = vw.findViewById(R.id.save_button_dialog);
@@ -521,18 +548,51 @@ public class MapDesignFragment extends Fragment {
                         layoutParams.rightMargin = 0;
                         layoutParams.bottomMargin = 0;
 
-                        Log.d("Move l/r", "" + (layoutParams.leftMargin + view.getWidth()));
                         Display d = getActivity().getWindowManager().getDefaultDisplay();
 
-                        Log.d("Width", mainFrame.getWidth() + " : " + mainFrame.getHeight());
-
                         view.setLayoutParams(layoutParams);
+
+                        findOverlay(view);
+
                         break;
                 }
                 mainFrame.invalidate();
                 return true;
             }
         };
+    }
+
+    public Element findOverlay(View view){
+
+        Rect rect = locateView(view);
+
+        for(Element element : elements){
+            Rect other = locateView(element);
+            Log.d("CORNERS", ""+rect.top+" : " + rect.bottom + " : " + rect.left + " : " + rect.right);
+            Log.d("OTHER", ""+other.top+" : " + other.bottom + " : " + other.left + " : " + other.right);
+
+            if(rect.top > other.top && rect.bottom < other.bottom && rect.left > other.left && rect.right < other.right) {
+                Log.d("OVERLAP", element.getlabel());
+                return element;
+            }
+
+        }
+        return null;
+    }
+
+    public Rect locateView(View view) {
+        Rect loc = new Rect();
+        int[] location = new int[2];
+        if (view == null) {
+            return loc;
+        }
+        view.getLocationOnScreen(location);
+
+        loc.left = location[0];
+        loc.top = location[1];
+        loc.right = loc.left + view.getWidth();
+        loc.bottom = loc.top + view.getHeight();
+        return loc;
     }
 
 }

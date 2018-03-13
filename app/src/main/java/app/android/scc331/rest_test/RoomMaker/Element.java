@@ -105,4 +105,8 @@ public class Element extends FrameLayout implements Serializable{
     public void setLabel(String label){
         this.label.setText(label);
     }
+
+    public String getlabel(){
+        return this.label.getText().toString();
+    }
 }
