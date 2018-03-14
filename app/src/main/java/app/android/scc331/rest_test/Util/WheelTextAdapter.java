@@ -24,22 +24,12 @@ public class WheelTextAdapter extends CursorWheelLayout.CycleWheelAdapter
 	private Context context;
 	private List<MenuItemData> menuItems;
 	private LayoutInflater inflater;
-	private int gravity;
+
 
 	public WheelTextAdapter(Context context, List<MenuItemData> menuItems)
 	{
 		this.context = context;
 		this.menuItems = menuItems;
-		gravity = Gravity.CENTER;
-		inflater = LayoutInflater.from(context);
-	}
-
-	public WheelTextAdapter(Context context, List<MenuItemData> menuItems, int gravity)
-	{
-
-		this.context = context;
-		this.menuItems = menuItems;
-		this.gravity = gravity;
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -58,7 +48,7 @@ public class WheelTextAdapter extends CursorWheelLayout.CycleWheelAdapter
 		text.setVisibility(View.VISIBLE);
 		text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 		text.setText(itemData.title);
-		text.setGravity(Gravity.CENTER);
+
 		return root;
 	}
 

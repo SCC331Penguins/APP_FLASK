@@ -50,7 +50,6 @@
         android:layout_below="@id/wheel_actuators"
         android:layout_centerHorizontal="true"
         android:id="@+id/wheel_actions"
-        app:wheelCenterRadio="0.4"
         app:wheelCursorHeight="30dip"
         app:wheelItemRotateMode="none"
         app:wheelSelectedAngle="270"
@@ -58,15 +57,6 @@
 
 
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large.Inverse"
-            android:id="@+id/id_wheel_menu_center_item"
-            android:text="Actions"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="DuplicateIds" />
 
     </github.hellocsl.cursorwheel.CursorWheelLayout>
     <Button

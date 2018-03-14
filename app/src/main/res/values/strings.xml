@@ -1,13 +1,5 @@
 <resources>
-    <string name="app_name">REST_TEST</string>
+    <string name="app_name">SET APP</string>
     <string name="title_activity_login">LoginActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_activity_map_canvas_fragment">MapCanvasFragment</string>
 </resources>
