@@ -91,7 +91,7 @@ public class GetRouterRestOperation {
 
         int status = r.getStatusLine().getStatusCode();
 
-        if(status == 200)//200 0k
+        if(status == 200)// 200 0k // Best comment 2k18
         {
             HttpEntity e = r.getEntity();
             String jsondatastring = EntityUtils.toString(e);

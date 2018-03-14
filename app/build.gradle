@@ -32,7 +32,9 @@ android {
         sourceCompatibility 1.8
     }
 }
-
+repositories {
+  jcenter()
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -60,5 +62,6 @@ dependencies {
     compile 'com.android.support:support-v13:26.1.0'
     compile 'com.github.MFlisar:DragSelectRecyclerView:0.3'
     compile 'github.hellocsl:CursorWheelLayout:1.1.0'
+    compile 'org.altbeacon:android-beacon-library:2+'
 }
 apply plugin: 'com.google.gms.google-services'

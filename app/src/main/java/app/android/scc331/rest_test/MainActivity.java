@@ -6,10 +6,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.IdRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +26,10 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Region;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -41,6 +47,7 @@ import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.SavedState;
 import app.android.scc331.rest_test.Objects.Sensor;
 import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
+import app.android.scc331.rest_test.Services.BLENotifier;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
 import app.android.scc331.rest_test.Services.GetRouterRestOperation;
 import app.android.scc331.rest_test.Services.LiveData.Elements.LiveData;
@@ -55,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         SensorDetailsFragment.OnFragmentInteractionListener,
         LiveDataFragment.LiveDataInteractionListener,
         MQTTConnection.Callbacks,
-        OpenConnection, DatePicker.DateInteractionListener{
+        OpenConnection, DatePicker.DateInteractionListener, BeaconConsumer {
 
     public static ArrayList<Sensor> sensors;
     public static ArrayList<Router> routers;
     public static ArrayList<Actuator> actuators;
     public static MQTTConnection mqttConnection;
-
+    public BeaconManager beaconManager;
     public static long startDate, endDate;
 
     private boolean mBounded;
@@ -98,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         savedState = SavedState.load(getApplicationContext());
         bottomBar = findViewById(R.id.bottomBar);
 
@@ -125,6 +131,21 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, 0);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, 0);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_PRIVILEGED) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_PRIVILEGED}, 0);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 0);
         }
@@ -138,19 +159,32 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
     @Override
     protected void onStart() {
+        super.onStart();
         Log.d("START", "MainActivity");
         Intent mIntent = new Intent(this, MQTTConnection.class);
         startService(mIntent);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
         GetRouterRestOperation getRouterRestOperation = new GetRouterRestOperation(this);
+        beaconManager = BeaconManager.getInstanceForApplication(MainActivity.this);
+        // Detect the main identifier (UID) frame:
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
+        // Detect the telemetry (TLM) frame:
+                beaconManager.getBeaconParsers().add(new BeaconParser().
+                        setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+        // Detect the URL frame:
+                beaconManager.getBeaconParsers().add(new BeaconParser().
+                        setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
         new Thread(new Runnable() {
             @Override
             public void run() {
                 routers = (ArrayList<Router>) getRouterRestOperation.Start();
-
+                System.out.println(1335);
+                System.out.println(routers);
+                beaconManager.bind(MainActivity.this);
             }
         }).start();
-        super.onStart();
+
     }
 
     @Override
@@ -269,5 +303,21 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         }else{
             f.setNewDate(text,endDate, 1);
         }
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        Toast.makeText(getApplicationContext(), "Beacon Service is connected", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.set.app",Context.MODE_PRIVATE);
+        System.out.println(routers);
+        BLENotifier bleNotifier = new BLENotifier(
+                sharedPreferences.getString("token",""),
+                routers.get(0).getId()
+        );
+        beaconManager.addRangeNotifier(bleNotifier);
+        beaconManager.addMonitorNotifier(bleNotifier);
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {    }
     }
 }
