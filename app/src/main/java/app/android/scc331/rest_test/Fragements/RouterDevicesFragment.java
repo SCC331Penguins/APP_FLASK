@@ -85,7 +85,7 @@ public class RouterDevicesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -101,6 +101,8 @@ public class RouterDevicesFragment extends Fragment {
                     return AlarmFragment.newInstance();
                 case 3:
                     return InternetButtonFragment.newInstance();
+                case 4:
+                    return RouterPermissionFragment.newInstance(router_id);
             }
             return null;
         }

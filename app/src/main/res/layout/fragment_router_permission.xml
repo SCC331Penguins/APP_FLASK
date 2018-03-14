@@ -1,13 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.android.scc331.rest_test.Fragements.RouterPermissionFragment">
+    android:orientation="vertical"
+    tools:context="app.android.scc331.rest_test.Fragements.RouterDevicesFragment"
+    android:background="@color/bb_darkBackgroundColor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/grant_permission"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Grant Permission"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"/>
+
+    <ListView
+        android:id="@+id/auth_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#515151">
 
-</FrameLayout>
+    </ListView>
+
+</LinearLayout>
+
