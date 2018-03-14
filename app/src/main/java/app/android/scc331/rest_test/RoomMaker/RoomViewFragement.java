@@ -21,6 +21,7 @@ import java.util.List;
 
 import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.Router;
+import app.android.scc331.rest_test.Objects.ZoneListener;
 import app.android.scc331.rest_test.R;
 
 /**
@@ -28,7 +29,7 @@ import app.android.scc331.rest_test.R;
  * Use the {@link RoomViewFragement#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RoomViewFragement extends Fragment {
+public class RoomViewFragement extends Fragment implements ZoneListener{
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -95,7 +96,7 @@ public class RoomViewFragement extends Fragment {
         }
 
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.router_spinner_item, router_names);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.router_spinner_item, router_names);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
@@ -118,20 +119,20 @@ public class RoomViewFragement extends Fragment {
                 if (elementData != null){
                     for (ElementData element : elementData) {
                         Log.d("ELEMENT LOAD", "Loading element: " + element.label_name);
-                        Element e = Element.initFromSave(getContext(), element);
+                        Element e = Element.initFromSave(getActivity(), element);
                         elements.add(e);
                         frameLayout.addView(e);
                     }
                 }
                 if (routerSensorElementData != null) {
-                    RouterElement routerElement = RouterElement.loadFromSave(getContext(), routerSensorElementData);
+                    RouterElement routerElement = RouterElement.loadFromSave(getActivity(), routerSensorElementData);
                     elements.add(routerElement);
                     frameLayout.addView(routerElement);
                 }
                 if (sensorElementData != null)
                 {
                     for (RouterSensorElementData rsd : sensorElementData) {
-                        SensorElement se = SensorElement.loadFromSave(getContext(), rsd);
+                        SensorElement se = SensorElement.loadFromSave(getActivity(), rsd);
                         elements.add(se);
                         frameLayout.addView(se);
                     }
@@ -144,9 +145,28 @@ public class RoomViewFragement extends Fragment {
             }
         });
 
-        frameLayout.addView(new RouterElement(getContext(),""));
+        frameLayout.addView(new RouterElement(getActivity(),""));
+
+        MainActivity.currentZone.setZoneListener(this);
 
         return v;
     }
 
+    @Override
+    public void onZoneChange(String zone){
+        for(FrameLayout e : elements){
+            e.setBackgroundColor(Color.WHITE);
+            Log.d("FRAMELAYOUT", e.toString());
+            if(e instanceof Element){
+                Element a = (Element)e;
+                String room = ((Element) e).getlabel();
+                String sensor = MainActivity.savedState.getSensorRoom(room);
+                Log.d("ELEMENT", "Zone: " + zone + " Room: " + room + " Sensor: " + sensor );
+                if(sensor != null){
+                    if(sensor.contains(zone))
+                        e.setBackgroundColor(Color.CYAN);
+                }
+            }
+        }
+    }
 }
