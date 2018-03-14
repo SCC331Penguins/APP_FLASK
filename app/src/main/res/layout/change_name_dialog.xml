@@ -12,6 +12,7 @@
         android:layout_weight="0">
 
         <TextView
+            android:id="@+id/title"
             android:text="Change Name"
             android:gravity="center"
             android:textSize="28sp"

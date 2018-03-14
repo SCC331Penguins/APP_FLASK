@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="app.android.scc331.rest_test.Fragements.RouterDevicesFragment"
-    android:background="@color/bb_darkBackgroundColor">
+    tools:context="app.android.scc331.rest_test.Fragements.RouterDevicesFragment">
 
     <Button
         android:id="@+id/grant_permission"
@@ -23,8 +22,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#515151">
+        android:layout_marginRight="15dp">
 
     </ListView>
 

@@ -28,4 +28,7 @@ public class RestPaths {
     public static final String PATH_ARM_SYSTEM = URL + "/api/arm_system";
     public static final String PATH_PHONE_LOCATION = URL + "/api/phone_location";
     public static final String PATH_SET_ROOM = URL + "/api/set_sensor_rooms";
+    public static final String GRANT_PERMISSION = URL + "/user/auth_user_add";
+    public static final String REVOKE_PERMISSION = URL + "/user/auth_user_remove";
+    public static final String GET_AUTH_USER = URL + "/user/get_auth_users";
 }
