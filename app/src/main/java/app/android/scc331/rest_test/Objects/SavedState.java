@@ -26,6 +26,16 @@ public class SavedState implements Serializable {
     private HashMap<String, RouterSensorElementData>  routerRoomPlanRouterSensor = new HashMap<>();
     private HashMap<String, ArrayList<RouterSensorElementData>> roomPlanSensors = new HashMap<>();
 
+    private HashMap<String, String> sensorRooms = new HashMap<>();
+
+    public void saveSensorRoom(String room, String sensor_id){
+        sensorRooms.put(room, sensor_id);
+    }
+
+    public String getSensorRoom(String room){
+        return sensorRooms.get(room);
+    }
+
     public void saveElements(String router_id, ArrayList<ElementData> elements){
         this.routerRoomPlans.put(router_id, elements);
     }

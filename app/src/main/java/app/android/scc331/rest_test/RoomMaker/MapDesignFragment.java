@@ -147,6 +147,7 @@ public class MapDesignFragment extends Fragment {
 
                     for(String key : sensorRooms.keySet()){
                         Log.d("ROOM ASSIGN", key + " is in: " + sensorRooms.get(key));
+                        MainActivity.savedState.saveSensorRoom(sensorRooms.get(key), key);
                     }
                 }
 

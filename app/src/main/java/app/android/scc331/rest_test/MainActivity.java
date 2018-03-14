@@ -43,9 +43,11 @@ import app.android.scc331.rest_test.Fragements.RouterFragement;
 import app.android.scc331.rest_test.Fragements.SensorDetailsFragment;
 import app.android.scc331.rest_test.Fragements.SettingsFragment;
 import app.android.scc331.rest_test.Objects.Actuator;
+import app.android.scc331.rest_test.Objects.CurrentZone;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.SavedState;
 import app.android.scc331.rest_test.Objects.Sensor;
+import app.android.scc331.rest_test.Objects.ZoneListener;
 import app.android.scc331.rest_test.RoomMaker.RoomViewFragement;
 import app.android.scc331.rest_test.Services.BLENotifier;
 import app.android.scc331.rest_test.Services.GetNewChannelRestOperation;
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
     private boolean channelLive = false;
 
     public static SavedState savedState;
+
+    public static CurrentZone currentZone;
 
     private BottomBar bottomBar;
 
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
         bottomBar.selectTabAtPosition(2);
         bottomBar.invalidate();
 
-
+        currentZone = new CurrentZone(null);
 
         new Thread(new Runnable() {
             @Override
@@ -317,7 +321,6 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
     @Override
     public void onBeaconServiceConnect() {
-        Toast.makeText(getApplicationContext(), "Beacon Service is connected", Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = this.getSharedPreferences("com.set.app",Context.MODE_PRIVATE);
         System.out.println(routers);
         BLENotifier bleNotifier = new BLENotifier(

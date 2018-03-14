@@ -52,10 +52,8 @@ public class HttpRequest extends AsyncTask<String, Integer, String> {
         post.setEntity(new StringEntity(json));
         post.setHeader("Accept", "application/json");
         post.setHeader("content-type", "application/json");
-        Log.i(TAG, "Executing post to "+url);
 
         HttpResponse r = httpClient.execute(post);
-        Log.i(TAG, "Got Response from "+url);
         return r;
     }
 }

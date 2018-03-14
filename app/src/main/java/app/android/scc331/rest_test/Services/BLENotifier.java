@@ -12,16 +12,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by wilson on 09/03/18.
- */
+import app.android.scc331.rest_test.MainActivity;
+import app.android.scc331.rest_test.Objects.CurrentZone;
 
 public class BLENotifier implements RangeNotifier, MonitorNotifier {
+
     String apiToken, routerID = null;
+
     public BLENotifier(String apiToken){
         this.apiToken = apiToken;
         this.routerID = "";
     }
+
     public BLENotifier(String apiToken, String routerID){
         this.apiToken = apiToken;
         this.routerID = routerID;
@@ -33,8 +35,6 @@ public class BLENotifier implements RangeNotifier, MonitorNotifier {
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
         Beacon closestbeacon = null;
-        System.out.println("YOOOO");
-        System.out.println(beacons);
         for (Beacon beacon : beacons) {
             if(closestbeacon == null)
                 closestbeacon = beacon;
@@ -53,6 +53,7 @@ public class BLENotifier implements RangeNotifier, MonitorNotifier {
     }
     public void doRequest(String zone){
         Map<String, String > params = new HashMap<>();
+        MainActivity.currentZone.setZone(zone);
         params.put("router_id",this.routerID);
         params.put("token",this.apiToken);
         params.put("sensor_id",zone);

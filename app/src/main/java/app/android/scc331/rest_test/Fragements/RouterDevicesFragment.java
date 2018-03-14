@@ -98,7 +98,7 @@ public class RouterDevicesFragment extends Fragment {
                 case 1:
                     return ActuatorsDirectControlFragment.newInstance(router_id);
                 case 2:
-                    return AlarmFragment.newInstance();
+                    return AlarmFragment.newInstance(router_id);
                 case 3:
                     return InternetButtonFragment.newInstance();
                 case 4:
