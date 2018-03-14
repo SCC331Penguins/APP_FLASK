@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="app.android.scc331.rest_test.Fragements.MainFragment"
-    >
+    tools:context="app.android.scc331.rest_test.Fragements.MainFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,6 @@
             android:layout_weight="1"
             android:paddingLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:id="@+id/Router_name"
             android:textColor="#FFF"
             android:textSize="30sp"
             android:text="Home"/>
@@ -27,45 +26,27 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/moving_panel"
+        android:gravity="center"
+        android:id="@+id/main_main_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Todo, add overview data"
-            android:textColor="#fff"/>
-
-        <Button
-            android:text="START"
-            android:id="@+id/request_live_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:text="STOP"
-            android:id="@+id/stop_live_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/live_data_text"
-            android:layout_margin="5dp"
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_weight="1"
+            android:id="@+id/animation_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="data:"
-            android:textColor="#FFF"/>
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/live_data_chart"
+            android:layout_height="match_parent"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true" />
+        <TextView
+            android:id="@+id/tip"
+            android:layout_weight="1.7"
+            android:textAlignment="center"
+            android:text="asd"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
-
-        </com.github.mikephil.charting.charts.LineChart>
-
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

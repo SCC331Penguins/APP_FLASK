@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -17,8 +18,10 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import app.android.scc331.rest_test.Objects.LoginDetail;
 import app.android.scc331.rest_test.Services.LoginRestOperation;
@@ -88,50 +91,65 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        LoginRestOperation lro = new LoginRestOperation(this);
-        boolean result = (boolean) lro.Start(username.getText().toString(), password.getText().toString());
-        if (result) {
-            if(remember.isChecked()){
-                loginDetail.setLoginDetails(username.getText().toString(), password.getText().toString(), auto.isChecked());
-                loginDetail.save(getApplicationContext());
-            }else{
-                loginDetail.setLoginDetails(null, null, false);
-                loginDetail.save(getApplicationContext());
-            }
+        new StyleableToast
+                .Builder(getApplicationContext())
+                .iconResRight(R.drawable.ic_loading).spinIcon().solidBackground().length(Toast.LENGTH_LONG)
+                .text("Logging you in...")
+                .textColor(Color.WHITE)
+                .backgroundColor(Color.BLACK)
+                .show();
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                LoginRestOperation lro = new LoginRestOperation(getApplication());
+                boolean result = (boolean) lro.Start(username.getText().toString(), password.getText().toString());
+                if (result) {
+                    if(remember.isChecked()){
+                        loginDetail.setLoginDetails(username.getText().toString(), password.getText().toString(), auto.isChecked());
+                        loginDetail.save(getApplicationContext());
+                    }else{
+                        loginDetail.setLoginDetails(null, null, false);
+                        loginDetail.save(getApplicationContext());
+                    }
 
-            SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-            //  Create a new boolean and preference and set it to true
-            boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+                    //  Create a new boolean and preference and set it to true
+                    boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
 
-            //  If the activity has never started before...
-            if (isFirstStart) {
+                    //  If the activity has never started before...
+                    if (isFirstStart) {
 
-                //  Launch app intro
-                final Intent i = new Intent(getApplicationContext(), IntroActivity.class);
+                        //  Launch app intro
+                        final Intent i = new Intent(getApplicationContext(), IntroActivity.class);
 
-                runOnUiThread(new Runnable() {
-                    @Override public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override public void run() {
+                                startActivity(i);
+                            }
+                        });
+
+                        //  Make a new preferences editor
+                        SharedPreferences.Editor e = getPrefs.edit();
+
+                        //  Edit preference to make it false because we don't want this to run again
+                        e.putBoolean("firstStart", false);
+
+                        //  Apply changes
+                        e.apply();
+                    }
+                    else
+                    {
+
+                        Intent i = new Intent(getApplication(), MainActivity.class);
                         startActivity(i);
                     }
-                });
-
-                //  Make a new preferences editor
-                SharedPreferences.Editor e = getPrefs.edit();
-
-                //  Edit preference to make it false because we don't want this to run again
-                e.putBoolean("firstStart", false);
-
-                //  Apply changes
-                e.apply();
+                }
             }
-            else
-            {
+        }).start();
 
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
-            }
-        }
     }
 
     private void register() {

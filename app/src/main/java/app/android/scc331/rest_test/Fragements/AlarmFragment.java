@@ -10,7 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import app.android.scc331.rest_test.R;
+import app.android.scc331.rest_test.Services.SetArmRestOperation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +45,16 @@ public class AlarmFragment extends Fragment
 			{
 				alarmIsArmed = !alarmIsArmed;
 				((ToggleButton)view).setChecked(alarmIsArmed);
+				try
+				{
+					new SetArmRestOperation(getActivity()).performPost(RouterDevicesFragment.router_id,alarmIsArmed);
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
 
 
 			}
