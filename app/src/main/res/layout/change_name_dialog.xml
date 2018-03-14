@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_margin="15dp"
     android:layout_height="200dp"
-    android:background="#EEE"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#DDD"
         android:layout_weight="0">
 
         <TextView
@@ -35,7 +33,6 @@
     <EditText
         android:id="@+id/editname_edittext"
         android:layout_margin="5dp"
-        android:background="#FFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.5"/>

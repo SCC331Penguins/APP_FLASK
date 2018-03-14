@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#2C2C54</color>
+    <color name="colorText">#ffffff</color>
+    <color name="colorButton">#A40E4C</color>
+    <color name="colorWheel">#A40E4C</color>
+    <color name="colorWheelArrow">#ACC3A6</color>
 
+    <color name="colorPrimary1">#95969D</color>
+    <color name="colorText1">#ffffff</color>
+    <color name="colorButton1">#212227</color>
+    <color name="colorWheel1">#212227</color>
+    <color name="colorWheelArrow1">#0C7C59</color>
+
+
+
+
+
+    <color name="colorAccent">#FF4081</color>
     <color name="black_overlay">#66000000</color>
 </resources>

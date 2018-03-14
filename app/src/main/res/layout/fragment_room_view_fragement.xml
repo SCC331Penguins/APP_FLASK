@@ -11,13 +11,12 @@
         android:layout_height="match_parent"
         android:layout_weight="9"
         android:padding="5dp"
-        android:background="#333">
+        >
 
         <Spinner
             android:id="@+id/router_drop_down"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#BBB"
             android:layout_margin="4dp"
             android:layout_weight="1">
 
@@ -41,7 +40,6 @@
 
     <FrameLayout
         android:id="@+id/room_show_panel"
-        android:background="@color/bb_darkBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">

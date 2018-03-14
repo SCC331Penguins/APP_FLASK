@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bb_darkBackgroundColor"
     tools:context="app.android.scc331.rest_test.Fragements.SensorDetailsFragment">
 
     <LinearLayout
@@ -27,7 +26,7 @@
                 android:textAlignment="center"
                 android:textSize="40sp"
                 android:text="Zone 1"
-                android:background="#333"/>
+                />
 
             <ImageView
                 android:layout_width="match_parent"

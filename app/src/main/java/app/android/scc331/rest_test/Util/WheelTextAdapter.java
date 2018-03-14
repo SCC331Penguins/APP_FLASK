@@ -56,11 +56,9 @@ public class WheelTextAdapter extends CursorWheelLayout.CycleWheelAdapter
 		View root = inflater.inflate(R.layout.wheel_text_layout, null , false);
 		TextView text = root.findViewById(R.id.wheel_text);
 		text.setVisibility(View.VISIBLE);
-		text.setTextColor(Color.BLACK);
 		text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 		text.setText(itemData.title);
-		if(text.getLayoutParams() instanceof FrameLayout.LayoutParams)
-			((FrameLayout.LayoutParams) text.getLayoutParams()).gravity = gravity;
+		text.setGravity(Gravity.CENTER);
 		return root;
 	}
 

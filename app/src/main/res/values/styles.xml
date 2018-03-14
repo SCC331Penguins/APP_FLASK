@@ -1,12 +1,70 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" xmlns:android="http://schemas.android.com/apk/res/android">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:colorButtonNormal" >@color/colorButton</item>
+        <item name="wheelBackgroundColor" >@color/colorWheel</item>
+        <item name="android:textColor" >@color/colorText</item>
+        <item name="android:textColorPrimaryDisableOnly" >@color/colorText</item>
+        <item name="android:textColorSecondary" >@color/colorText</item>
+        <item name="android:textColorTertiary" >@color/colorText</item>
+        <item name="wheelCursorColor" >@color/colorWheelArrow</item>
+        <item name="android:editTextColor" >@color/colorText</item>
     </style>
+
+    <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar" xmlns:android="http://schemas.android.com/apk/res/android">
+        <item name="android:windowBackground">@color/colorPrimary1</item>
+        <item name="android:colorButtonNormal" >@color/colorButton1</item>
+        <item name="wheelBackgroundColor" >@color/colorWheel1</item>
+        <item name="android:textColor" >@color/colorText1</item>
+        <item name="android:textColorPrimaryDisableOnly" >@color/colorText1</item>
+        <item name="android:textColorSecondary" >@color/colorText1</item>
+        <item name="android:textColorTertiary" >@color/colorText1</item>
+        <item name="wheelCursorColor" >@color/colorWheelArrow1</item>
+        <item name="android:editTextColor" >@color/colorText1</item>
+
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -30,3 +88,6 @@
     </style>
 
 </resources>
+
+
+

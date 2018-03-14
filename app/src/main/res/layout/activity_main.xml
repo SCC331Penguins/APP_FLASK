@@ -24,14 +24,13 @@
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"
+        android:layout_weight="10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         app:bb_activeTabAlpha="1"
-        android:layout_weight="10"
-        app:bb_inActiveTabAlpha="1"
-        app:bb_inActiveTabColor="#eeeeee"
+        app:bb_inActiveTabAlpha="0.5"
+        app:bb_inActiveTabColor="#ffffff"
         app:bb_activeTabColor="#ffffff"
         app:bb_showShadow="false"/>
 

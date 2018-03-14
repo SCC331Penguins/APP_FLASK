@@ -5,7 +5,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context="app.android.scc331.rest_test.Fragements.TriggerConditionsMainFragment"
-            android:background="@color/bb_darkBackgroundColor"
             android:id="@+id/fragmentFrameMain">
 
     <!-- TODO: Update blank fragment layout -->

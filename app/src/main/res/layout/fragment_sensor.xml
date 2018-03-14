@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="app.android.scc331.rest_test.Fragements.SensorListFragment"
-    android:background="@color/bb_darkBackgroundColor">
+    >
     <ListView
         android:id="@+id/sensor_list_view"
         android:layout_width="match_parent"

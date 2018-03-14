@@ -2,8 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:background="@color/bg_wheel">
 
@@ -14,7 +14,6 @@
         android:padding="2sp"
         android:textSize="14sp"
         android:text="Wheel"
-        android:textColor="#000000"
         />
 
 </FrameLayout>

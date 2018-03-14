@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bb_darkBackgroundColor"
     tools:context="app.android.scc331.rest_test.Fragements.RouterFragement">
 
     <LinearLayout
@@ -11,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_weight="9"
         android:padding="5dp"
-        android:background="#333">
+        >
 
         <TextView
             android:layout_width="match_parent"

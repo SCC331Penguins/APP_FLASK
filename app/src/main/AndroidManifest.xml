@@ -31,19 +31,15 @@
             android:name=".SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme">
-
-        </activity>
-
+            android:theme="@style/FullscreenTheme"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <service android:name=".Services.Firebase.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -55,9 +51,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="org.eclipse.paho.android.service.MqttService">
-        </service>
-        <service android:name=".Services.LiveData.MQTTConnection">
-        </service>
+        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name=".Services.LiveData.MQTTConnection"></service>
+
+        <activity android:name=".IntroActivity"></activity>
     </application>
+
 </manifest>

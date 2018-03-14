@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="app.android.scc331.rest_test.Fragements.AlarmFragment"
     android:orientation="vertical"
-    android:background="@color/bb_darkBackgroundColor">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

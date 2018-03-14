@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ import app.android.scc331.rest_test.Services.LoginRestOperation;
 import app.android.scc331.rest_test.Services.RestOperation;
 
 public class LoginActivity extends AppCompatActivity {
-
+    public static boolean defaultTheme = true;
     private Button login, register;
     private AutoCompleteTextView username, password;
     private ProgressDialog progressDialog;
@@ -35,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        //  Create a new boolean and preference and set it to true
+        defaultTheme = getPrefs.getBoolean("defaultTheme", true);
+        setTheme(defaultTheme ? R.style.AppTheme : R.style.AppTheme1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

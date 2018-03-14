@@ -6,7 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -36,6 +38,7 @@ import app.android.scc331.rest_test.Fragements.MainFragment;
 import app.android.scc331.rest_test.Fragements.RouterFragement;
 import app.android.scc331.rest_test.Fragements.SensorDetailsFragment;
 import app.android.scc331.rest_test.Fragements.RouterDevicesFragment;
+import app.android.scc331.rest_test.Fragements.SettingsFragment;
 import app.android.scc331.rest_test.Objects.Actuator;
 import app.android.scc331.rest_test.Objects.Router;
 import app.android.scc331.rest_test.Objects.SavedState;
@@ -51,6 +54,8 @@ import app.android.scc331.rest_test.Services.LiveData.OpenConnection;
 import app.android.scc331.rest_test.Services.PingRestServer;
 import app.android.scc331.rest_test.Services.SetButtonRestOperation;
 import app.android.scc331.rest_test.Services.SetTokenRestOperation;
+
+import static app.android.scc331.rest_test.LoginActivity.defaultTheme;
 
 public class MainActivity extends AppCompatActivity implements OnTabSelectListener, OnTabReselectListener,
         RouterFragement.OnFragmentInteractionListener,
@@ -98,14 +103,19 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(defaultTheme ? R.style.AppTheme : R.style.AppTheme1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         savedState = SavedState.load(getApplicationContext());
         bottomBar = findViewById(R.id.bottomBar);
-
+        for (int i = 0; i < bottomBar.getTabCount(); i++)
+            bottomBar.getTabAtPosition(i).setBarColorWhenSelected( defaultTheme ? Color.parseColor("#A40E4C") :Color.parseColor("#212227") );
         bottomBar.setOnTabSelectListener(this);
         bottomBar.setOnTabReselectListener(this);
+        bottomBar.selectTabAtPosition(2);
+        bottomBar.invalidate();
+
 
 
         new Thread(new Runnable() {
@@ -176,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
             MainFragment f = new MainFragment();
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         } else if (tabId == R.id.settings_tab) {
-            MainFragment f = new MainFragment();
+            SettingsFragment f = SettingsFragment.newInstance();
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         } else if (tabId == R.id.live_data_tab) {
             LiveDataFragment f = new LiveDataFragment();
@@ -199,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements OnTabSelectListen
             RoomViewFragement f = new RoomViewFragement();
             fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         } else if (tabId == R.id.live_data_tab) {
+        } else if (tabId == R.id.settings_tab)
+        {
+            SettingsFragment f = SettingsFragment.newInstance();
+            fragmentTransaction.replace(R.id.main_content_pane, f).commit();
         }
     }
 
