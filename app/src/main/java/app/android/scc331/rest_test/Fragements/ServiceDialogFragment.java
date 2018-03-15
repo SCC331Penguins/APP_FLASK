@@ -5,9 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import app.android.scc331.rest_test.R;
+
+import static app.android.scc331.rest_test.LoginActivity.defaultTheme;
 
 /**
  * Created by Nikola on 15/02/2018.
@@ -26,7 +29,7 @@ public class ServiceDialogFragment extends DialogFragment
     NoticeDialogListener mListener;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), defaultTheme ? R.style.AppTheme :R.style.AppTheme1);
         Bundle bundle = this.getArguments();
         String[] values = null;
         boolean[] checked = null;

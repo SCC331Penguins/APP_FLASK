@@ -16,6 +16,8 @@ import app.android.scc331.rest_test.MainActivity;
 import app.android.scc331.rest_test.Objects.TriggerCondition;
 import app.android.scc331.rest_test.R;
 
+import static app.android.scc331.rest_test.LoginActivity.defaultTheme;
+
 
 /**
  * Created by Nikola on 14/02/2018.
@@ -163,7 +165,7 @@ public class TriggerConditionBuilderFragment extends Fragment
     {
         final Spinner spinner = new Spinner(getActivity());
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, values);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(R.layout.item);
         spinner.setAdapter(dataAdapter);
         layout.addView(spinner);
         return spinner;
@@ -184,7 +186,6 @@ public class TriggerConditionBuilderFragment extends Fragment
     private Spinner updateSpinnerValues(List<String> newValues, Spinner spinner)
     {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, newValues);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
         spinner.setDrawingCacheBackgroundColor(Color.parseColor("#FFFFFF"));
         dataAdapter.notifyDataSetChanged();
@@ -200,6 +201,7 @@ public class TriggerConditionBuilderFragment extends Fragment
         layout.addView(editText);
         editText.setHintTextColor(Color.parseColor("#FFFFFF"));
         editText.setTextColor(Color.parseColor("#FFFFFF"));
+
         return editText;
     }
 

@@ -12,7 +12,7 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/Router_name"
+            android:id="@+id/top_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"

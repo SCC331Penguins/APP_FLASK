@@ -63,7 +63,7 @@ View v ;
         super.onResume();
         TextView text = v.findViewById(R.id.tip);
         LottieAnimationView av = v.findViewById(R.id.animation_view);
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 5 + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
         switch (randomNum)
         {
             case 1:
@@ -81,10 +81,6 @@ View v ;
             case 4:
                 av.setAnimation(R.raw.thermometer3);
                 text.setText("Your SET toolkit presents you with live data about temperature.");
-                break;
-            case 5:
-                av.setAnimation(R.raw.button_spread);
-                text.setText("Your SET toolkit can control all the smart devices in your home.");
                 break;
             default:
                 av.setAnimation(R.raw.thermometer3);

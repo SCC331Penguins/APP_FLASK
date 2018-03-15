@@ -3,7 +3,7 @@ package app.android.scc331.rest_test.Services;
 public class RestPaths
 {
     public static final String TAG = "REST OP";
-    public static final String IP = "192.168.0.117";
+    public static final String IP = "192.168.0.118";
     //public static final String IP = "sccug-330-02.lancs.ac.uk";
     public static final String URL = "http://" + IP + ":5001";
 

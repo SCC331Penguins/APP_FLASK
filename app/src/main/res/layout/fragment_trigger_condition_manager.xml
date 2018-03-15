@@ -15,6 +15,7 @@ tools:context="app.android.scc331.rest_test.Fragements.TriggerConditionManagerFr
         >
 
         <TextView
+            android:id="@+id/top_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"

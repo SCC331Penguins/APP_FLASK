@@ -71,7 +71,6 @@ public class LiveDataFragment extends Fragment implements SpinnerSensorListener{
         View v = inflater.inflate(R.layout.fragment_live_data, container, false);
 
         Spinner spinner = v.findViewById(R.id.router_drop_down);
-        spinner.setBackgroundColor(Color.parseColor("#777777"));
 
         router_element = v.findViewById(R.id.live_router_element);
 
@@ -102,9 +101,8 @@ public class LiveDataFragment extends Fragment implements SpinnerSensorListener{
 
         // Initializing an ArrayAdapter
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.router_spinner_item, router_names);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.item);
         spinner.setAdapter(spinnerArrayAdapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

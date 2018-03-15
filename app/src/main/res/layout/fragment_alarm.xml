@@ -23,7 +23,7 @@
             android:textColor="#FFF"
             android:textSize="30sp"
             android:text="Alarm Control"
-            android:textAlignment="center"/>
+            />
     </LinearLayout>
     <ToggleButton
         android:id="@+id/button_alarm"

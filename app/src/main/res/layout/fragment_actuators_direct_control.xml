@@ -15,8 +15,7 @@
         android:layout_gravity="center_vertical"
         android:paddingTop="2dp"
         android:textSize="30sp"
-        android:text="Actuators Direct Control"
-        android:textAlignment="center"/>
+        android:text="Actuators Direct Control" />
 
     <github.hellocsl.cursorwheel.CursorWheelLayout
         android:layout_below="@id/actuators_direct_control_title"

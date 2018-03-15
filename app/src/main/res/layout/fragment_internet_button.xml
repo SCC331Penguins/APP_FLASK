@@ -24,7 +24,7 @@
             android:textColor="#FFF"
             android:textSize="30sp"
             android:text="Internet Button Setup"
-            android:textAlignment="center"/>
+            android:id="@+id/top_title"/>
         <LinearLayout
             android:layout_gravity="center"
             android:layout_weight="1"
