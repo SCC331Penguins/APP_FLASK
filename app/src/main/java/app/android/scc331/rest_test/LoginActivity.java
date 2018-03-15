@@ -94,15 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login()
     {
-        new AsyncTask<Void, Void, Void>()
-        {
-
-            @Override
-            protected Void doInBackground(Void... voids)
-            {
-                return null;
-            }
-        }.execute();
+        
         new Thread(new Runnable()
         {
             @Override
