@@ -82,6 +82,7 @@
         app:wheelPaddingRadio="0"
         app:wheelItemRotateMode="none"
         app:wheelSelectedAngle="270"
+        android:minHeight="150dip"
         >
 
         <ImageView

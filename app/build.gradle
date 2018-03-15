@@ -36,7 +36,7 @@ android {
     }
 }
 repositories {
-  jcenter()
+    jcenter()
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -69,7 +69,7 @@ dependencies {
     implementation 'com.github.apl-devs:appintro:v4.2.3'
     implementation 'github.hellocsl:CursorWheelLayout:1.1.0'
     implementation 'org.altbeacon:android-beacon-library:2+'
-    implementation ('com.airbnb.android:lottie:2.5.1')
+    implementation('com.airbnb.android:lottie:2.5.1')
             {
                 exclude group: 'com.android.support'
             }

@@ -11,6 +11,8 @@
         <item name="android:textColorTertiary" >@color/colorText</item>
         <item name="wheelCursorColor" >@color/colorWheelArrow</item>
         <item name="android:editTextColor" >@color/colorText</item>
+        <item name="android:buttonTint" >@color/colorButton</item>
+
     </style>
 
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar" xmlns:android="http://schemas.android.com/apk/res/android">
@@ -23,6 +25,7 @@
         <item name="android:textColorTertiary" >@color/colorText1</item>
         <item name="wheelCursorColor" >@color/colorWheelArrow1</item>
         <item name="android:editTextColor" >@color/colorText1</item>
+        <item name="android:buttonTint" >@color/colorButton1</item>
 
     </style>
 

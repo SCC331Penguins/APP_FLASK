@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import app.android.scc331.rest_test.Fragements.LoadingDialogFragment;
 import app.android.scc331.rest_test.Objects.LoginDetail;
 import app.android.scc331.rest_test.Services.LoginRestOperation;
 import app.android.scc331.rest_test.Services.RestOperation;
@@ -90,14 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login() {
-        new StyleableToast
-                .Builder(getApplicationContext())
-                .iconResRight(R.drawable.ic_loading).spinIcon().solidBackground().length(Toast.LENGTH_LONG)
-                .text("Logging you in...")
-                .textColor(Color.WHITE)
-                .backgroundColor(Color.BLACK)
-                .show();
+    private void login()
+    {
         new Thread(new Runnable()
         {
             @Override
@@ -105,11 +101,14 @@ public class LoginActivity extends AppCompatActivity {
             {
                 LoginRestOperation lro = new LoginRestOperation(getApplication());
                 boolean result = (boolean) lro.Start(username.getText().toString(), password.getText().toString());
-                if (result) {
-                    if(remember.isChecked()){
+                if (result)
+                {
+                    if (remember.isChecked())
+                    {
                         loginDetail.setLoginDetails(username.getText().toString(), password.getText().toString(), auto.isChecked());
                         loginDetail.save(getApplicationContext());
-                    }else{
+                    } else
+                    {
                         loginDetail.setLoginDetails(null, null, false);
                         loginDetail.save(getApplicationContext());
                     }
@@ -120,27 +119,20 @@ public class LoginActivity extends AppCompatActivity {
                     boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
 
                     //  If the activity has never started before...
-                    if (isFirstStart) {
-
-                        //  Launch app intro
-                        final Intent i = new Intent(getApplicationContext(), IntroActivity.class);
-
-                        runOnUiThread(new Runnable() {
-                            @Override public void run() {
-                                startActivity(i);
-                            }
-                        });
-
-                        //  Make a new preferences editor
+                    if (isFirstStart)
+                    {
                         SharedPreferences.Editor e = getPrefs.edit();
-
                         //  Edit preference to make it false because we don't want this to run again
                         e.putBoolean("firstStart", false);
-
                         //  Apply changes
                         e.apply();
-                    }
-                    else
+                        //  Launch app intro
+                        final Intent i = new Intent(getApplicationContext(), IntroActivity.class);
+                        startActivity(i);
+
+                        //  Make a new preferences editor
+
+                    } else
                     {
 
                         Intent i = new Intent(getApplication(), MainActivity.class);
@@ -149,7 +141,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }).start();
-
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "Logging you in...");
+        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        loadingDialogFragment.setArguments(bundle);
+        loadingDialogFragment.show(getFragmentManager(), "");
     }
 
     private void register() {
