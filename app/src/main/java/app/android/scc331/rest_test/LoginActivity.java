@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login()
     {
-        
         new Thread(new Runnable()
         {
             @Override
@@ -139,7 +138,9 @@ public class LoginActivity extends AppCompatActivity {
                         Intent i = new Intent(getApplication(), MainActivity.class);
                         startActivity(i);
                     }
-                }
+            }
+
+
             }
         }).start();
         Bundle bundle = new Bundle();

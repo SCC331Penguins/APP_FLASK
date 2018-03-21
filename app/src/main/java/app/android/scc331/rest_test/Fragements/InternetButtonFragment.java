@@ -81,7 +81,7 @@ public class InternetButtonFragment extends Fragment
 				actuatorNames.add(actuatorsList.get(i).getType());
 			}
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, actuatorNames);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			adapter.setDropDownViewResource(R.layout.item);
 			actuators.setAdapter(adapter);
 			actuators.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 			{
@@ -89,7 +89,7 @@ public class InternetButtonFragment extends Fragment
 				public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
 				{
 					ArrayAdapter<String> actionsAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, actuatorsList.get(i).getFunctions());
-					actionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					actionsAdapter.setDropDownViewResource(R.layout.item);
 					actions.setAdapter(actionsAdapter);
 					actionsAdapter.notifyDataSetChanged();
 
